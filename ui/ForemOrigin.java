@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+// import文は省略しています
+
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
 public interface ForemOrigin extends ForemFunctions {
     int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
     int wrap_content = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -8,7 +13,11 @@ public interface ForemOrigin extends ForemFunctions {
         return new LinearLayout.LayoutParams(width, height);
     }
 
+<<<<<<< HEAD
     default LinearLayout.LayoutParams layoutParams(int width, int height, float weight) {
+=======
+    default LinearLayout.LayoutParams layoutParams(int width, int height, int weight) {
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, height);
         lp.weight = weight;
         return lp;
@@ -18,7 +27,11 @@ public interface ForemOrigin extends ForemFunctions {
         view.setLayoutParams(layoutParams(width, height));
     }
 
+<<<<<<< HEAD
     default void layoutView(View view, int width, int height, float weightPercent) {
+=======
+    default void layoutView(View view, int width, int height, int weightPercent) {
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         view.setLayoutParams(layoutParams(width, height, weightPercent));
     }
 
@@ -30,7 +43,11 @@ public interface ForemOrigin extends ForemFunctions {
         layoutView(ForemFocusView.focusView, width, height);
     }
 
+<<<<<<< HEAD
     default void layout(int width, int height, float weightPercent) {
+=======
+    default void layout(int width, int height, int weightPercent) {
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         layoutView(ForemFocusView.focusView, width, height, weightPercent);
     }
 
@@ -70,17 +87,23 @@ public interface ForemOrigin extends ForemFunctions {
         ForemFocusView.focusView.setBackgroundColor(color);
     }
 
+<<<<<<< HEAD
     default void backgroundResource(int resouceId){
         ForemFocusView.focusView.setBackgroundResource(resouceId);
     }
 
+=======
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
     default void image(int drawableId) {
         ((ImageView) ForemFocusView.focusView).setImageResource(drawableId);
     }
 
     String center = "center";
     String right = "right";
+<<<<<<< HEAD
     String top="top";
+=======
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
     String bottom = "bottom";
     String left = "left";
 
@@ -92,9 +115,12 @@ public interface ForemOrigin extends ForemFunctions {
         if (positionList.contains(right)) {
             alignRight();
         }
+<<<<<<< HEAD
         if(positionList.contains(top)){
             alignTop();
         }
+=======
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         if (positionList.contains(bottom)) {
             alignBottom();
         }
@@ -157,7 +183,12 @@ public interface ForemOrigin extends ForemFunctions {
             Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
             V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
             ForemFocusView.focusView = instance;
+<<<<<<< HEAD
             ForemElement<V> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+=======
+            ForemElement<V> newForemElement =
+                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
             return newForemElement.attribute(fs);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -172,7 +203,12 @@ public interface ForemOrigin extends ForemFunctions {
             Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
             V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
             ForemFocusView.focusView = instance;
+<<<<<<< HEAD
             ForemElement<V> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+=======
+            ForemElement<V> newForemElement =
+                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
             return newForemElement.attribute(fs);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -180,7 +216,12 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
+<<<<<<< HEAD
     default <V extends View> ForemElement<V> create(Var<V> var, ForemNullarySetter fs, V... ignore) {
+=======
+    default <V extends View> ForemElement<V> create(Var<V> var, ForemNullarySetter fs,
+            V... ignore) {
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         assert ignore.length == 0;
         Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
         try {
@@ -188,7 +229,12 @@ public interface ForemOrigin extends ForemFunctions {
             V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
             var.set(instance);
             ForemFocusView.focusView = instance;
+<<<<<<< HEAD
             ForemElement<V> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+=======
+            ForemElement<V> newForemElement =
+                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
             return newForemElement.attribute(fs);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -204,7 +250,12 @@ public interface ForemOrigin extends ForemFunctions {
             V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
             set(var, instance);
             ForemFocusView.focusView = instance;
+<<<<<<< HEAD
             ForemElement<V> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+=======
+            ForemElement<V> newForemElement =
+                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
             return newForemElement.attribute(fs);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -212,7 +263,12 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
+<<<<<<< HEAD
     default <V extends View> ForemElement<V> create(Var<V> var, ForemUnarySetter<V> fs, V... ignore) {
+=======
+    default <V extends View> ForemElement<V> create(Var<V> var, ForemUnarySetter<V> fs,
+            V... ignore) {
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         assert ignore.length == 0;
         Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
         try {
@@ -220,7 +276,12 @@ public interface ForemOrigin extends ForemFunctions {
             V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
             var.set(instance);
             ForemFocusView.focusView = instance;
+<<<<<<< HEAD
             ForemElement<V> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+=======
+            ForemElement<V> newForemElement =
+                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
             return newForemElement.attribute(fs);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -241,6 +302,7 @@ public interface ForemOrigin extends ForemFunctions {
         newInstance(clazz).export(args);
     }
 
+<<<<<<< HEAD
     default void url(String url){
         cast(ForemFocusView.focusView, WebView.class).loadUrl(url);
     }
@@ -323,6 +385,86 @@ public interface ForemOrigin extends ForemFunctions {
 //    default <T> Var<T> varType(Class<T> clazz, T... ignore) {
 //        return var();
 //    }
+=======
+    // default <T> Var<T> var() {
+    // return new Var<>();
+    // }
+    //
+    // default <V extends ImageView> ImageViewVar<V> var(V v){return new ImageViewVar<>(v);}
+    //
+    // default <V extends TextView> TextViewVar<V> var(V v) {
+    // return new TextViewVar<>(v);
+    // }
+    //
+    // default <V extends View> ViewVar<V> var(V v) {
+    // return new ViewVar<>(v);
+    // }
+    //
+    // default BooleanVar var(boolean initialValue) {
+    // return new BooleanVar(initialValue);
+    // }
+    //
+    // default CharVar var(char initialValue) {
+    // return new CharVar(initialValue);
+    // }
+    //
+    // default FloatVar var(float initialValue) {
+    // return new FloatVar(initialValue);
+    // }
+    //
+    // default DoubleVar var(double initialValue) {
+    // return new DoubleVar(initialValue);
+    // }
+    //
+    // default ByteVar var(byte initialValue) {
+    // return new ByteVar(initialValue);
+    // }
+    //
+    // default ShortVar var(short initialValue) {
+    // return new ShortVar(initialValue);
+    // }
+    //
+    // default LongVar var(long initialValue) {
+    // return new LongVar(initialValue);
+    // }
+    //
+    // default IntVar var(int initialValue) {
+    // return new IntVar(initialValue);
+    // }
+    //
+    // default <E> ForemListVar<E> var(ForemList<E> list){
+    // return new ForemListVar<>(list);
+    // }
+    //
+    // default <E> ForemListVar<E> var(E... elements){
+    // ForemList<E> list=new ForemList<>();
+    // for(int i=0;i<list.size();list.add(elements[i++]));
+    // return new ForemListVar<>(list);
+    // }
+    //
+    // default StringVar var(String initialValue){
+    // return new StringVar(initialValue);
+    // }
+    //
+    // default <T> Var<T> var(T initialValue) {
+    // return new Var<>(initialValue);
+    // }
+
+    // default <V extends ImageView> ImageViewVar<V> varType(Class<V> clazz,V... ignore){
+    // return new ImageViewVar<>();
+    // }
+    // default <V extends TextView> TextViewVar<V> varType(Class<V> clazz, V... ignore) {
+    // return new TextViewVar<>();
+    // }
+    //
+    // default <V extends View> ViewVar<V> varType(Class<V> clazz, V... ignore) {
+    // return new ViewVar<>();
+    // }
+    //
+    // default <T> Var<T> varType(Class<T> clazz, T... ignore) {
+    // return var();
+    // }
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
 
     int v = 0;
 
@@ -395,6 +537,7 @@ public interface ForemOrigin extends ForemFunctions {
         ForemOnChangeEventScope.onChangeMap.get(var).add(newFs);
     }
 
+<<<<<<< HEAD
 //    ForemList<ForemNullarySetter> observer =new ForemList<>();
 
 //    default <E> void testOnChange(E[] var,ForemNullarySetter fs){
@@ -428,6 +571,41 @@ public interface ForemOrigin extends ForemFunctions {
 //    default void testCheck(){
 //        observer.forEach(ForemNullarySetter::set);
 //    }
+=======
+    // ForemList<ForemNullarySetter> observer =new ForemList<>();
+
+    // default <E> void testOnChange(E[] var,ForemNullarySetter fs){
+    // if (!ForemOnChangeEventScope.onChangeMap.containsKey(var)) {
+    // ForemOnChangeEventScope.onChangeMap.put(var, new ArrayList<>());
+    // }
+    // ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
+    // View self = ForemFocusView.focusView;
+    // ForemUnarySetter<E> newFs = e -> {
+    // ViewGroup cacheViewGroup = ForemFocusViewGroup.focusViewGroup;
+    // View cacheView = ForemFocusView.focusView;
+    // ForemFocusViewGroup.focusViewGroup = parent;
+    // ForemFocusView.focusView = self;
+    // fs.set();
+    // ForemFocusViewGroup.focusViewGroup = cacheViewGroup;
+    // ForemFocusView.focusView = cacheView;
+    // };
+    // ForemOnChangeEventScope.onChangeMap.get(var).add(newFs);
+    //
+    // ForemUnarySetter<E[]> fus=arg->{
+    // if(ForemOnChangeEventScope.varValueMap.get(arg)!=arg[v]){
+    // ForemOnChangeEventScope.varValueMap.put(arg,arg[v]);
+    // ForemOnChangeEventScope.onChangeMap.get(arg).forEach(sfs->{
+    // ((ForemUnarySetter<E>)sfs).set(arg[v]);
+    // });
+    // }
+    // };
+    // observer.add(()->fus.set(var));
+    // }
+
+    // default void testCheck(){
+    // observer.forEach(ForemNullarySetter::set);
+    // }
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
 
     default void onClick(ForemNullarySetter fs) {
         ForemOnClickEventScope.render(ForemFocusView.focusView, fs);
@@ -437,9 +615,15 @@ public interface ForemOrigin extends ForemFunctions {
         ForemOnLongClickEventScope.render(ForemFocusView.focusView, fs);
     }
 
+<<<<<<< HEAD
 //    default <T> void onChange(Var<T> var, ForemUnarySetter<T> fs) {
 //        ForemOnChangeEventScope.render(var, fs);
 //    }
+=======
+    // default <T> void onChange(Var<T> var, ForemUnarySetter<T> fs) {
+    // ForemOnChangeEventScope.render(var, fs);
+    // }
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
 
     default <T> T function(function func, Object... args) {
         return cast(func.exe(args));

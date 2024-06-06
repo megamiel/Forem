@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+// import文は省略しています
+
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
 // 注記:画像ファイルのみ設定可能です
 @SuppressLint("AppCompatCustomView")
 public class CircleImageView extends ImageView {
@@ -23,11 +28,22 @@ public class CircleImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         BitmapDrawable drawable = (BitmapDrawable) getDrawable();
+<<<<<<< HEAD
         if (drawable == null) return;
         if (getWidth() == 0 || getHeight() == 0) return;
 
         Bitmap srcBmp = drawable.getBitmap();
         if (srcBmp == null) return;
+=======
+        if (drawable == null)
+            return;
+        if (getWidth() == 0 || getHeight() == 0)
+            return;
+
+        Bitmap srcBmp = drawable.getBitmap();
+        if (srcBmp == null)
+            return;
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
 
         Bitmap image = getSquareBitmap(srcBmp);
 
@@ -35,7 +51,13 @@ public class CircleImageView extends ImageView {
         if (canvas.getHeight() < canvasSize)
             canvasSize = canvas.getHeight();
 
+<<<<<<< HEAD
         BitmapShader shader = new BitmapShader(Bitmap.createScaledBitmap(image, canvasSize, canvasSize, false), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+=======
+        BitmapShader shader =
+                new BitmapShader(Bitmap.createScaledBitmap(image, canvasSize, canvasSize, false),
+                        Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         paint.setShader(shader);
 
         int circleCenter = canvasSize / 2;
@@ -43,9 +65,16 @@ public class CircleImageView extends ImageView {
     }
 
     private Bitmap getSquareBitmap(Bitmap srcBmp) {
+<<<<<<< HEAD
         if (srcBmp.getWidth() == srcBmp.getHeight()) return srcBmp;
 
         //Rectangle to square. Equivarent to ScaleType.CENTER_CROP
+=======
+        if (srcBmp.getWidth() == srcBmp.getHeight())
+            return srcBmp;
+
+        // Rectangle to square. Equivarent to ScaleType.CENTER_CROP
+>>>>>>> e3b7e8e595d111803699e42b586d185538f17397
         int dim = Math.min(srcBmp.getWidth(), srcBmp.getHeight());
         Bitmap dstBmp = Bitmap.createBitmap(dim, dim, Bitmap.Config.ARGB_8888);
 

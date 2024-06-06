@@ -1,11 +1,3 @@
-package com.example.wantouch_project.forem.ui;
-
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.wantouch_project.forem.functionalInterfaces.ForemNullarySetter;
-
-
 public interface ForemScope {
     static void render(ViewGroup parent, View self, ForemNullarySetter fs){
         ViewGroup cacheParent=ForemFocusViewGroup.focusViewGroup;

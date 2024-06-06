@@ -1,10 +1,3 @@
-package com.example.wantouch_project.forem.extensions;
-
-import com.example.wantouch_project.forem.functionalInterfaces.ForemUnarySetter;
-
-import java.util.HashMap;
-import java.util.function.Function;
-
 public interface Statix {
     HashMap<String,Object> staticVariables=new HashMap<>();
     static void  set(String key,Object value){

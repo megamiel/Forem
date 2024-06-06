@@ -1,16 +1,3 @@
-package com.example.wantouch_project.forem.sample;
-
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import com.example.wantouch_project.forem.activitys.ForemActivity;
-import com.example.wantouch_project.forem.extensions.ForemList;
-import com.example.wantouch_project.forem.ui.ForemListView;
-
-import com.example.wantouch_project.forem.views.HorizontalLayout;
-import com.example.wantouch_project.forem.views.Root;
-
 public class TodoListSampleActivity extends ForemActivity {
     @Override
     public void render(Root root) {

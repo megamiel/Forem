@@ -1,12 +1,3 @@
-package com.example.wantouch_project.forem.extensions;
-
-import android.app.Activity;
-import android.content.Intent;
-
-import com.example.wantouch_project.forem.extensions.ThreadRunner;
-
-import java.lang.reflect.Constructor;
-
 public interface ForemFunctions {
     default <To> To cast(Object from) {
         return (To) from;

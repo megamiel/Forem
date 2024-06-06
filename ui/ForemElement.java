@@ -1,11 +1,3 @@
-package com.example.wantouch_project.forem.ui;
-
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.wantouch_project.forem.functionalInterfaces.ForemNullarySetter;
-import com.example.wantouch_project.forem.functionalInterfaces.ForemUnarySetter;
-
 public class ForemElement<V extends View>{
     private final ViewGroup viewGroup;
     private final V v;

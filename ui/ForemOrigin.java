@@ -1,31 +1,3 @@
-package com.example.wantouch_project.forem.ui;
-
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Typeface;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Space;
-import android.widget.TextView;
-
-
-import com.example.wantouch_project.forem.activitys.ForemActivity;
-import com.example.wantouch_project.forem.extensions.ForemFunctions;
-import com.example.wantouch_project.forem.extensions.ForemList;
-import com.example.wantouch_project.forem.functionalInterfaces.ForemNullarySetter;
-import com.example.wantouch_project.forem.functionalInterfaces.ForemUnarySetter;
-import com.example.wantouch_project.forem.extensions.vars.Var;
-import com.example.wantouch_project.forem.extensions.function;
-
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-
 public interface ForemOrigin extends ForemFunctions {
     int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
     int wrap_content = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -267,11 +239,6 @@ public interface ForemOrigin extends ForemFunctions {
 
     default void export(Class<? extends ForemComponent> clazz, Object... args) {
         newInstance(clazz).export(args);
-    }
-
-    default void craftmincho(){
-        Typeface craftmincho = Typeface.createFromAsset(((Activity)this).getAssets(), "craftmincho.otf");
-        ((TextView)ForemFocusView.focusView).setTypeface(craftmincho);
     }
 
     default void url(String url){

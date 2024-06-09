@@ -10,7 +10,12 @@
 
 
 # 実装方法
-
+1. Foremを実装したいプロジェクトをAndroid Studioで開きます。
+2. ターミナルを開き、git clone https://github.com/megamiel/Forem.git を実行します。
+3. setting.gradleを開き、include ':Forem'を記述し、Sync Nowをクリックします。
+4. MainActivity.javaを開き、extends AppCompatActivityの部分をextends ForemActivityに変更します。
+5. ForemActivityが赤くなるため、カーソルを合わせ、「'モジュール[プロジェクト名].Forem.mainに依存関係を追加'」を選択し、gradleの更新が行われば実装完了です。
+6. クラスのインポートなどを随時行ってください。
 
 
 

@@ -8,6 +8,22 @@
 レイアウトと処理を同時に記述 : レイアウトとイベント処理を同時に記述することで、コードの可読性が向上します。  
 簡潔なコード : XMLファイルを使用しないため、コードがシンプルになり、保守が容易になります。
 
+## 環境
+### プロジェクトの設定
+関係のない設定は省略しています。
+#### build.gradle(Module:app)
+```gradle
+android {
+    compileSdk 34
+    defaultConfig {
+        targetSdk 34
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_10
+        targetCompatibility JavaVersion.VERSION_1_10
+    }
+}
+```
 
 ## 実装方法
 1. Foremを実装したいプロジェクトをAndroid Studioで開きます。

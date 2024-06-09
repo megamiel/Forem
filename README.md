@@ -30,7 +30,7 @@
 レイアウトをXML,処理をJavaで記述した場合のサンプルコードと、Foremを使用して記述した場合のサンプルコードを示します。  
 以下のサンプルコードはどちらもボタンがクリックされると、テキストが[NOT CLICKED]から[CLICKED]になるプログラムです。
 
-
+---
 ## レイアウトをXML,処理をJavaで記述した場合のサンプルコード
 
 
@@ -62,7 +62,9 @@ public class SampleActivity extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
 
+        // idからボタン要素を取得
         Button button=findViewById(R.id.buttonId);
+        // クリックされた際のイベント処理を記述
         button.setOnClickListener(v->{
             button.setText("CLICKED");
         });
@@ -71,11 +73,7 @@ public class SampleActivity extends AppCompatActivity {
 }
 
 ```
-
-
-
-
-
+---
 
 ## Foremを使用して記述した場合のサンプルコード
 
@@ -100,6 +98,7 @@ public class MainActivity extends ForemActivity {
 }
 
 ```
+---
 
 # コミュニティへの参加方法
 Foremのコミュニティに参加する方法や、質問や提案を行うための連絡先情報は、以下の方法で参加できます。

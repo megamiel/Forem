@@ -35,16 +35,24 @@ this.<Viewクラス>create(()->{
 #### サンプルコード
 ```java
 this.<HorizontalLayout>create(()->{
-    layout(match_parent,match_parent);
+  layout(match_parent,match_parent);
 }).render(()->{
-    this.<TextView>create(()->{
-        layout(wrap_content,wrap_content);
-        text("sample text");
-    });
-    this.<Button>create(()->{
-        layout(wrap_content,wrap_content);
-        text("sample button");
-    });
+  this.<TextView>create(()->{
+    layout(wrap_content,wrap_content);
+    text("sample text");
+  });
+  this.<Button>create(()->{
+    layout(wrap_content,wrap_content);
+    text("sample button");
+  });
+});
+```
+以下は、要素の属性設定や子要素のレイアウトを省略したコードです。
+```java
+this.<HorizontalLayou>create(()->{
+  要素の属性設定
+}).render(()->{
+  子要素のレイアウト
 });
 ```
 
@@ -56,16 +64,16 @@ this.<HorizontalLayout>create(()->{
 #### サンプルコード
 ```java
 this.<VerticalLayout>create(()->{
-    layout(match_parent,match_parent);
+  layout(match_parent,match_parent);
 }).render(()->{
-    this.<TextView>create(()->{
-        layout(wrap_content,wrap_content);
-        text("sample text");
-    });
-    this.<Button>create(()->{
-        layout(wrap_content,wrap_content);
-        text("sample button");
-    });
+  this.<TextView>create(()->{
+    layout(wrap_content,wrap_content);
+    text("sample text");
+  });
+  this.<Button>create(()->{
+    layout(wrap_content,wrap_content);
+    text("sample button");
+  });
 });
 ```
 
@@ -94,12 +102,12 @@ drawableにXMLファイルで記述していた背景レイアウトをJavaフ�
 #### サンプルコード
 ```java
 var reusableBackground = new ReusableBackground(){{
-    setColor(Color.RED);
-    setCornerRadius(100);
+  setColor(Color.RED);
+  setCornerRadius(100);
 }};
 
 this.<TextView>create(()->{
-    layout(match_parent, match_parent);
-    text("sample");
-    reusableBackground.export();
+  layout(match_parent, match_parent);
+  text("sample");
+  reusableBackground.export();
 });

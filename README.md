@@ -100,9 +100,5 @@ public class MainActivity extends ForemActivity {
 ```
 ---
 
-# コミュニティへの参加方法
-Foremのコミュニティに参加する方法や、質問や提案を行うための連絡先情報は、以下の方法で参加できます。
 
-GitHubリポジトリ: https://github.com/megamiel/Forem  
-メーリングリスト: it232231@trident.ac.jp  
 お気軽に質問やフィードバックをお寄せください

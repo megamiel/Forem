@@ -2,8 +2,6 @@
 
 こちらはForemのAPIリファレンスです。このセクションでは、主要なクラスとその機能について説明します。
 
-[こちら](#Background)
-
 ## クラス一覧
 
 <h3 id="ForemActivity">ForemActivity</h3>

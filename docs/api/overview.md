@@ -6,7 +6,26 @@
 
 <h3 id="ForemActivity">ForemActivity</h3>
 
-`ForemActivity`はJavaでレイアウトを行うために必要なクラスです。
+`ForemActivity`はJavaでレイアウトを行うために必要なクラスです。  
+基本的には、renderメソッド内にレイアウトと処理を記述していきます。  
+#### サンプルコード
+```java
+public class SampleActivity extends ForemActivity{
+  @Override
+  public void render(Root root){
+    this.<TextView>create(()->{
+      layout(match_parent,match_parent);
+      text("sample");
+    });
+  }
+}
+```
+また、要素を生成する際は、以下のように記述します。  
+```java
+this.<Viewクラス>create(()->{
+  // 要素の属性設定
+});
+```
 
 <h3 id="HorizontalLayout">HorizontalLayout</h3>
 

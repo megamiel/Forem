@@ -50,9 +50,9 @@ this.<HorizontalLayout>create(()->{
 以下は、要素の属性設定や子要素のレイアウトを省略したコードです。
 ```java
 this.<HorizontalLayou>create(()->{
-  要素の属性設定
+  // 要素の属性設定
 }).render(()->{
-  子要素のレイアウト
+  // 子要素のレイアウト
 });
 ```
 
@@ -74,6 +74,14 @@ this.<VerticalLayout>create(()->{
     layout(wrap_content,wrap_content);
     text("sample button");
   });
+});
+```
+以下は、要素の属性設定や子要素のレイアウトを省略したコードです。
+```java
+this.<VerticalLayout>create(()->{
+  // 要素の属性設定
+}).render(()->{
+  // 子要素のレイアウト
 });
 ```
 

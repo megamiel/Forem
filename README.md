@@ -15,14 +15,15 @@
     ```bash
     git clone https://github.com/megamiel/Forem.git
     ```
-3. `setting.gradle`を開いて以下の行を追加します。
+3. `setting.gradle`を開き、以下の行を追加します。
     ```gradle
     include ':Forem'
     ```
-4. Sync Nowをクリックしてプロジェクトを同期します。
-5. `MainActivity.java`を開き、`extends AppCompatActivity`の部分を`extends ForemActivity`に変更します。
-6. `ForemActivity`が赤くなるため、カーソルを合わせ、「'モジュール [プロジェクト名].Forem.mainに依存関係を追加'」を選択し、gradleの更新を行います。
-7. クラスのインポートなどを随時行ってください。
+4. `build.gradle(Module:app)`を開き、以下の行を追加します。
+    ```gradle
+    implementation project(path: ':Forem')
+    ```
+5. Sync Nowをクリックしてプロジェクトを同期すると、実装完了となります。
 
 
 

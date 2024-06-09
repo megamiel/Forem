@@ -105,9 +105,9 @@ var reusableBackground = new ReusableBackground(){{
   setColor(Color.RED);
   setCornerRadius(100);
 }};
-
 this.<TextView>create(()->{
   layout(match_parent, match_parent);
   text("sample");
   reusableBackground.export();
 });
+```

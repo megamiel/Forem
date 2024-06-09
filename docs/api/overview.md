@@ -29,13 +29,45 @@ this.<Viewクラス>create(()->{
 
 <h3 id="HorizontalLayout">HorizontalLayout</h3>
 
-`HorizontalLayout`はUIを横並びに配置するためのクラスです。
-既存のレイアウト方法では、LinearLayoutを作成し、その後LinearLayoutのorientationをhorizontalに変更する必要がありましたが、LinearLayoutに代わって、HorizontalLayoutを使用することで、UIを横並びにすることができるようになります。
+`HorizontalLayout`はUIを横並びに配置するためのクラスです。  
+既存のレイアウト方法では、LinearLayoutを作成し、その後LinearLayoutのorientationをhorizontalに変更する必要がありましたが、LinearLayoutに代わって、HorizontalLayoutを使用することで、UIを横並びにすることができるようになります。  
+以下のサンプルコードでは、createメソッドで要素の属性設定を行い、続くrenderメソッドでHorizontalLayoutの子要素のレイアウトを記述しています。
+#### サンプルコード
+```java
+this.<HorizontalLayout>create(()->{
+    layout(match_parent,match_parent);
+}).render(()->{
+    this.<TextView>create(()->{
+        layout(wrap_content,wrap_content);
+        text("sample text");
+    });
+    this.<Button>create(()->{
+        layout(wrap_content,wrap_content);
+        text("sample button");
+    });
+});
+```
 
 <h3 id="VerticalLayout">VerticalLayout</h3>
 
-`VerticalLayout`はUIを縦並びに配置するためのクラスです。
-既存のレイアウト方法では、LinearLayoutを作成し、その後LinearLayoutのorientationをverticalに変更する必要がありましたが、LinearLayoutに代わって、VerticalLayoutを使用することで、UIを縦並びにすることができるようになります。
+`VerticalLayout`はUIを縦並びに配置するためのクラスです。  
+既存のレイアウト方法では、LinearLayoutを作成し、その後LinearLayoutのorientationをverticalに変更する必要がありましたが、LinearLayoutに代わって、VerticalLayoutを使用することで、UIを縦並びにすることができるようになります。  
+以下のサンプルコードでは、createメソッドで要素の属性設定を行い、続くrenderメソッドでVerticalLayoutの子要素のレイアウトを記述しています。
+#### サンプルコード
+```java
+this.<VerticalLayout>create(()->{
+    layout(match_parent,match_parent);
+}).render(()->{
+    this.<TextView>create(()->{
+        layout(wrap_content,wrap_content);
+        text("sample text");
+    });
+    this.<Button>create(()->{
+        layout(wrap_content,wrap_content);
+        text("sample button");
+    });
+});
+```
 
 <h3 id="Background">Background</h3>
 

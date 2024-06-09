@@ -27,7 +27,7 @@
 
 
 ## 使い方
-詳細な使い方は[こちら](https://github.com/megamiel/Forem/docs/api/overview.md)を参照してください。
+詳細な使い方は[こちら](https://github.com/megamiel/Forem/tree/master/docs/api/overview.md)を参照してください。
 
 
 ## サンプルコード比較

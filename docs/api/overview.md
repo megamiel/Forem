@@ -1,6 +1,6 @@
 # APIリファレンス
 
-こちらはForemのAPIリファレンスです。このセクションでは、主要なクラスとその機能について説明します。
+こちらはForemのAPIリファレンスです。こちらでは、主要なクラスとその機能について説明します。
 
 ## クラス一覧
 
@@ -20,12 +20,13 @@
 
 <h3 id="Background">Background</h3>
 
-`Background`はUI要素の背景レイアウトを行うためのクラスです。
-drawableにXMLファイルで記述していた背景レイアウトをJavaファイルに記述できます。
+`Background`はUI要素の背景レイアウトを行うためのクラスです。  
+drawableにXMLファイルで記述していた背景レイアウトをJavaファイルに記述できます。  
+しかし、インスタンスを生成すると、現在生成中のViewに適応されてしまうため、再使用は不可能になっています。
 #### サンプルコード
 ```java
 this.<TextView>create(()->{
-  layout(match_parent,match_parent);
+  layout(match_parent, match_parent);
   text("sample");
   new Background(){{
     setColor(Color.RED);
@@ -33,3 +34,21 @@ this.<TextView>create(()->{
   }};
 });
 ```
+
+<h3 id="ReusableBackground">ReusableBackground</h3>
+
+`ReusableBackground`はUI要素の背景レイアウトを行うためのクラスです。  
+drawableにXMLファイルで記述していた背景レイアウトをJavaファイルに記述できます。  
+また、再使用可能なように設計されており、複数回使用する場合は、こちらのクラスを使用することが推奨されています。
+#### サンプルコード
+```java
+var reusableBackground = new ReusableBackground(){{
+    setColor(Color.RED);
+    setCornerRadius(100);
+}};
+
+this.<TextView>create(()->{
+    layout(match_parent, match_parent);
+    text("sample");
+    reusableBackground.export();
+});

@@ -65,7 +65,7 @@ public class SampleActivity extends AppCompatActivity {
 
 
 
-# Foremを使用して記述した場合のサンプルコード
+## Foremを使用して記述した場合のサンプルコード
 
 ```Java
 

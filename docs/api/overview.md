@@ -136,7 +136,7 @@ var sampleComponent = component(()->{
         text("sample");
     });
 });
-sampleComponentのexportを呼び出すことで、sampleComponentで実装した描画処理が実行される。
+// sampleComponentのexportを呼び出すことで、sampleComponentで実装した描画処理が実行される。
 sampleComponent.export();
 ```
 #### 引数ありの場合のサンプルコード
@@ -151,7 +151,7 @@ var sampleComponent = component(String.class, arg -> {
     });
 });
 
-//sampleComponentのexportにStringを渡すことで、sampleComponentで実装した描画処理が実行される。
+// sampleComponentのexportにStringを渡すことで、sampleComponentで実装した描画処理が実行される。
 sampleComponent.export("sample");
 ``` 
 

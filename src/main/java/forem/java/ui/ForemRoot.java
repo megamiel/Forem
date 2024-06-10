@@ -17,7 +17,6 @@ public class ForemRoot {
 
     public void render(ForemNullarySetter fs) {
         ForemFocusViewGroup.focusViewGroup = linearLayout;
-
         fs.set();
         activity.setContentView(linearLayout);
     }

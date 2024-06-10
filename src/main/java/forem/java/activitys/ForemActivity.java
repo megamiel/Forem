@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import forem.java.ui.Forem;
+import forem.java.ui.ForemFocusViewGroup;
 
 public abstract class ForemActivity extends AppCompatActivity implements Forem {
     @Override

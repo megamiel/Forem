@@ -14,8 +14,8 @@ public class TodoListSampleActivity extends ForemActivity {
     @Override
     public void render(Root root) {
         var todoList = var(new ForemList<String>());
-        space(match_parent, 0, 1);
         var taskEditText = varType(EditText.class);
+        space(match_parent, 0, 1);
         this.<HorizontalLayout>create(() -> {
             layout(match_parent, 0, 10);
         }).render(() -> {
@@ -29,11 +29,11 @@ public class TodoListSampleActivity extends ForemActivity {
                 text("追加");
                 textSize(24);
                 onClick(() -> {
-                    var taskName = taskEditText[v].getText().toString();
+                    var taskName = get(taskEditText).getText().toString();
                     if (taskName.equals(""))
                         return;
-                    taskEditText[v].setText("");
-                    todoList[v].add(taskName);
+                    get(taskEditText).setText("");
+                    get(todoList).add(taskName);
                     ignite(todoList);
                 });
             });
@@ -43,7 +43,7 @@ public class TodoListSampleActivity extends ForemActivity {
         }).render(() -> {
             onChange(todoList, () -> {
                 clearChild();
-                todoList[v].forEach((todo, index) -> {
+                get(todoList).forEach((todo, index) -> {
                     this.<HorizontalLayout>create(() -> {
                         layout(match_parent, wrap_content);
                     }).render(() -> {
@@ -57,7 +57,7 @@ public class TodoListSampleActivity extends ForemActivity {
                             text("完了");
                             textSize(18);
                             onClick(() -> {
-                                todoList[v].remove(index);
+                                get(todoList).remove(index);
                                 ignite(todoList);
                             });
                         });

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import forem.java.extensions.CLASS;
 import forem.java.extensions.ForemFunctions;
 import forem.java.extensions.function;
 import forem.java.functionalInterfaces.ForemNullarySetter;
@@ -21,6 +22,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public interface ForemOrigin extends ForemFunctions {
     int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -263,8 +265,8 @@ public interface ForemOrigin extends ForemFunctions {
 //    }
 
 
-    default void url(String url){
-        ((WebView)ForemFocusView.focusView).loadUrl(url);
+    default void url(String url) {
+        ((WebView) ForemFocusView.focusView).loadUrl(url);
     }
 
     default void space(int width, int height) {
@@ -275,8 +277,20 @@ public interface ForemOrigin extends ForemFunctions {
         this.<Space>create(space -> layoutView(space, width, height, weightPercent));
     }
 
-    default void export(Class<? extends ForemComponent> clazz, Object... args) {
-        newInstance(clazz).export(args);
+    default ForemComponent component(ForemComponent fc){
+        return fc;
+    }
+
+    default <C extends CLASS>ForemUnaryComponent<C> component(C c,ForemUnaryComponent<C> fc){
+        return fc;
+    }
+
+    default <C> ForemUnaryComponent<C> component(Class<C> clazz,ForemUnaryComponent<C> fc){
+        return fc;
+    }
+
+    default void export(Class<? extends ForemComponent> clazz) {
+        newInstance(clazz).export();
     }
 
     default void craftmincho() {
@@ -375,6 +389,10 @@ public interface ForemOrigin extends ForemFunctions {
 
     default <E> E[] varType(Class<E> type) {
         return (E[]) Array.newInstance(type, 1);
+    }
+
+    default <C extends CLASS> C[] varType(C clazz) {
+        return var((C) clazz.clone());
     }
 
     default <E> void set(E[] var, E value) {

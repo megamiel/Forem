@@ -8,10 +8,17 @@
 レイアウトと処理を同時に記述 : レイアウトとイベント処理を同時に記述することで、コードの可読性が向上します。  
 簡潔なコード : XMLファイルを使用しないため、コードがシンプルになり、保守が容易になります。
 
-## 環境
-### プロジェクトの設定
-関係のない設定は省略しています。
-#### build.gradle(Module:app)
+## 実装方法
+1. Foremを実装したいプロジェクトをAndroid Studioで開きます。
+2. ターミナルを起動し、以下のコマンドを実行します。
+    ```bash
+    git clone https://github.com/megamiel/Forem.git
+    ```
+3. `setting.gradle`を開き、以下の行を追加します。
+    ```gradle
+    include ':Forem'
+    ```
+4.`build.gradle(Module:app)`を開き、該当箇所のバージョンが下記以上であることを確認してください。
 ```gradle
 android {
     compileSdk 34
@@ -24,22 +31,11 @@ android {
     }
 }
 ```
-
-## 実装方法
-1. Foremを実装したいプロジェクトをAndroid Studioで開きます。
-2. ターミナルを起動し、以下のコマンドを実行します。
-    ```bash
-    git clone https://github.com/megamiel/Forem.git
-    ```
-3. `setting.gradle`を開き、以下の行を追加します。
-    ```gradle
-    include ':Forem'
-    ```
-4. `build.gradle(Module:app)`を開き、以下の行を追加します。
+5. `build.gradle(Module:app)`に、以下の行を追加します。
     ```gradle
     implementation project(path: ':Forem')
     ```
-5. Sync Nowをクリックしてプロジェクトを同期すると、実装完了となります。
+6. Sync Nowをクリックしてプロジェクトを同期すると、実装完了となります。
 
 
 ## 使い方

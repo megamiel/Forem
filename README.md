@@ -9,7 +9,7 @@
 簡潔なコード : XMLファイルを使用しないため、コードがシンプルになり、保守が容易になります。
 
 ## 実装方法
-1. Foremを実装したいプロジェクトをAndroid Studioで開きます。(注意:プロジェクトのロードが終わるまで次の手順を行わないでください)
+1. Foremを実装したいプロジェクトをAndroid Studioで開きます。
 2. ターミナルを起動し、以下のコマンドを実行します。
     ```bash
     git clone https://github.com/megamiel/Forem.git

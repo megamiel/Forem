@@ -120,3 +120,71 @@ this.<TextView>create(()->{
     reusableBackground.export();
 });
 ```
+
+
+<h3 id="ForemComponent">ForemComponent</h3>
+
+`ForemComponent`は画面に描画されるコンポーネントを作成するためのクラスです。
+
+#### 引数なしの場合のサンプルコード
+以下のサンプルコードを実行すると、`sample`というTextViewが描画されます。
+```java
+// 引数なしのコンポーネントを作成
+var sampleComponent = component(()->{
+    return this.<TextView>create(()->{
+        layout(wrap_content,wrap_content);
+        text("sample");
+    });
+});
+sampleComponentのexportを呼び出すことで、sampleComponentで実装した描画処理が実行される。
+sampleComponent.export();
+```
+#### 引数ありの場合のサンプルコード
+以下のサンプルコードを実行すると、`sample6`というTextViewが描画されます。
+
+```java
+// Stringクラスを引数として受け取るコンポーネントを作成
+var sampleComponent = component(String.class, arg -> {
+    return this.<TextView>create(() -> {
+        layout(wrap_content, wrap_content);
+        text(arg + arg.length());
+    });
+});
+
+//sampleComponentのexportにStringを渡すことで、sampleComponentで実装した描画処理が実行される。
+sampleComponent.export("sample");
+``` 
+
+<h3 id="CLASS">CLASS</h3>
+
+`CLASS`は一時的なクラスを作成するためのクラスです。  
+一般的には、コンポーネントの引数を設定するためにCLASSクラスを使用します。  
+以下のサンプルコードを実行すると、`10sample`というTextViewが描画されます。
+#### サンプルコード
+```java
+// クラスを作成(メンバ変数:a,b)
+var SampleClass = new CLASS(){
+    int a;
+    String b;
+};
+
+// SampleClassクラスを引数として受け取るコンポーネントを作成。
+// argには、渡された引数が格納される。
+var sampleComponent = component(SampleClass, arg -> {
+    return this.<TextView>create(() -> {
+        layout(wrap_content, wrap_content);
+        text(arg.a + arg.b);
+    });
+});
+
+// SampleClassクラスのインスタンスを生成
+var sampleData = varType(SampleClass);
+
+// 生成したインスタンスのメンバ変数a,bに値を代入
+get(sampleData).a = 10;
+get(sampleData).b = "sample";
+
+//sampleComponentのexportに生成したインスタンスを引数として渡すことで、sampleComponentで実装した描画処理が実行される。
+sampleComponent.export(sampleData);
+
+```

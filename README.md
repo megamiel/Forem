@@ -114,7 +114,6 @@ public class MainActivity extends ForemActivity {
 }
 
 ```
----
 
 
 お気軽に質問やフィードバックをお寄せください

@@ -17,6 +17,7 @@ import forem.java.extensions.ForemFunctions;
 import forem.java.extensions.function;
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.functionalInterfaces.ForemUnarySetter;
+import forem.java.views.VarArea;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -30,11 +31,11 @@ public interface ForemOrigin extends ForemFunctions {
     int vertical = LinearLayout.VERTICAL;
     int horizontal = LinearLayout.HORIZONTAL;
 
-    default LinearLayout.LayoutParams layoutParams(int width, int height) {
+    private LinearLayout.LayoutParams layoutParams(int width, int height) {
         return new LinearLayout.LayoutParams(width, height);
     }
 
-    default LinearLayout.LayoutParams layoutParams(int width, int height, int weight) {
+    private LinearLayout.LayoutParams layoutParams(int width, int height, int weight) {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, height);
         lp.weight = weight;
         return lp;
@@ -164,16 +165,18 @@ public interface ForemOrigin extends ForemFunctions {
         linearLayout.setOrientation(horizontal);
     }
 
+    @Deprecated
     default void vertical() {
         vertical((LinearLayout) ForemFocusView.focusView);
     }
 
+    @Deprecated
     default void horizontal() {
         horizontal((LinearLayout) ForemFocusView.focusView);
     }
 
 
-    default void clearChild() {
+    private void clearChild() {
         ForemFocusViewGroup.focusViewGroup.removeAllViews();
     }
 
@@ -245,6 +248,24 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
+    default <V extends VarArea> ForemElement<VarArea> create(ForemNullarySetter fs) {
+        try {
+            Constructor<VarArea> constructor = VarArea.class.getDeclaredConstructor(Context.class);
+            VarArea instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
+            ForemFocusView.focusView = instance;
+            ForemElement<VarArea> newForemElement =
+                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+            ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
+            ForemFocusViewGroup.focusViewGroup = newForemElement.getV();
+            newForemElement.attribute(fs);
+            ForemFocusViewGroup.focusViewGroup = parent;
+            return newForemElement;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
 //    default <V extends
 //            View> ForemElement<V> create(Var<V> var, ForemUnarySetter<V> fs,
 //                                         V... ignore) {
@@ -277,15 +298,15 @@ public interface ForemOrigin extends ForemFunctions {
         this.<Space>create(space -> layoutView(space, width, height, weightPercent));
     }
 
-    default ForemComponent component(ForemComponent fc){
+    default ForemComponent component(ForemComponent fc) {
         return fc;
     }
 
-    default <C extends CLASS>ForemUnaryComponent<C> component(C c,ForemUnaryComponent<C> fc){
+    default <C extends CLASS> ForemUnaryComponent<C> component(C c, ForemUnaryComponent<C> fc) {
         return fc;
     }
 
-    default <C> ForemUnaryComponent<C> component(Class<C> clazz,ForemUnaryComponent<C> fc){
+    default <C> ForemUnaryComponent<C> component(Class<C> clazz, ForemUnaryComponent<C> fc) {
         return fc;
     }
 
@@ -298,84 +319,10 @@ public interface ForemOrigin extends ForemFunctions {
         ((TextView) ForemFocusView.focusView).setTypeface(craftmincho);
     }
 
-    // default <T> Var<T> var() {
-    // return new Var<>();
-    // }
-    //
-    // default <V extends ImageView> ImageViewVar<V> var(V v){return new ImageViewVar<>(v);}
-    //
-    // default <V extends TextView> TextViewVar<V> var(V v) {
-    // return new TextViewVar<>(v);
-    // }
-    //
-    // default <V extends View> ViewVar<V> var(V v) {
-    // return new ViewVar<>(v);
-    // }
-    //
-    // default BooleanVar var(boolean initialValue) {
-    // return new BooleanVar(initialValue);
-    // }
-    //
-    // default CharVar var(char initialValue) {
-    // return new CharVar(initialValue);
-    // }
-    //
-    // default FloatVar var(float initialValue) {
-    // return new FloatVar(initialValue);
-    // }
-    //
-    // default DoubleVar var(double initialValue) {
-    // return new DoubleVar(initialValue);
-    // }
-    //
-    // default ByteVar var(byte initialValue) {
-    // return new ByteVar(initialValue);
-    // }
-    //
-    // default ShortVar var(short initialValue) {
-    // return new ShortVar(initialValue);
-    // }
-    //
-    // default LongVar var(long initialValue) {
-    // return new LongVar(initialValue);
-    // }
-    //
-    // default IntVar var(int initialValue) {
-    // return new IntVar(initialValue);
-    // }
-    //
-    // default <E> ForemListVar<E> var(ForemList<E> list){
-    // return new ForemListVar<>(list);
-    // }
-    //
-    // default <E> ForemListVar<E> var(E... elements){
-    // ForemList<E> list=new ForemList<>();
-    // for(int i=0;i<list.size();list.add(elements[i++]));
-    // return new ForemListVar<>(list);
-    // }
-    //
-    // default StringVar var(String initialValue){
-    // return new StringVar(initialValue);
-    // }
-    //
-    // default <T> Var<T> var(T initialValue) {
-    // return new Var<>(initialValue);
-    // }
-
-    // default <V extends ImageView> ImageViewVar<V> varType(Class<V> clazz,V... ignore){
-    // return new ImageViewVar<>();
-    // }
-    // default <V extends TextView> TextViewVar<V> varType(Class<V> clazz, V... ignore) {
-    // return new TextViewVar<>();
-    // }
-    //
-    // default <V extends View> ViewVar<V> varType(Class<V> clazz, V... ignore) {
-    // return new ViewVar<>();
-    // }
-    //
-    // default <T> Var<T> varType(Class<T> clazz, T... ignore) {
-    // return var();
-    // }
+    default void font(String fontName) {
+        Typeface typeface = Typeface.createFromAsset(((Activity) this).getAssets(), fontName);
+        ((TextView) ForemFocusView.focusView).setTypeface(typeface);
+    }
 
 
     int v = 0;
@@ -395,6 +342,33 @@ public interface ForemOrigin extends ForemFunctions {
         return var((C) clazz.clone());
     }
 
+    private <E> void varArea(E[] e, ForemNullarySetter fs) {
+        fs.set();
+        onChange(e, () -> {
+            clearChild();
+            fs.set();
+        });
+    }
+
+    default <E> void onNotify(E[] e, ForemNullarySetter fs) {
+        varArea(e, fs);
+    }
+
+    default <E> void notify(E[] e) {
+        ignite(e);
+    }
+
+    default <E> void notify(E[] e, Object ignore) {
+        ignite(e);
+    }
+
+    default <E> void notify(E[] e, ForemNullarySetter fs) {
+        fs.set();
+        ignite(e);
+    }
+
+
+    @Deprecated
     default <E> void set(E[] var, E value) {
         var[v] = value;
         if (ForemOnChangeEventScope.onChangeMap.containsKey(var)) {
@@ -404,20 +378,24 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
+    @Deprecated
     default <E> E get(E[] var) {
         return var[v];
     }
 
+    @Deprecated
     default <E> void setter(E[] var, ForemNullarySetter fs) {
         fs.set();
         ignite(var);
     }
 
-    default <E> void ignite(E[] var) {
+
+    private <E> void ignite(E[] var) {
         set(var, var[v]);
     }
 
-    default <E> void onChange(E[] var, ForemUnarySetter<E> fs) {
+    @Deprecated
+    private <E> void onChange(E[] var, ForemUnarySetter<E> fs) {
         if (!ForemOnChangeEventScope.onChangeMap.containsKey(var)) {
             ForemOnChangeEventScope.onChangeMap.put(var, new ArrayList<>());
         }
@@ -435,7 +413,7 @@ public interface ForemOrigin extends ForemFunctions {
         ForemOnChangeEventScope.onChangeMap.get(var).add(newFs);
     }
 
-    default <E> void onChange(E[] var, ForemNullarySetter fs) {
+    private <E> void onChange(E[] var, ForemNullarySetter fs) {
         if (!ForemOnChangeEventScope.onChangeMap.containsKey(var)) {
             ForemOnChangeEventScope.onChangeMap.put(var, new ArrayList<>());
         }
@@ -499,6 +477,7 @@ public interface ForemOrigin extends ForemFunctions {
     // ForemOnChangeEventScope.render(var, fs);
     // }
 
+    @Deprecated
     default <T> T function(function func, Object... args) {
         return cast(func.exe(args));
     }
@@ -506,4 +485,20 @@ public interface ForemOrigin extends ForemFunctions {
 //    default <T> void focus(Var<T> var, ForemUnarySetter<T> fs) {
 //        fs.set(var.get());
 //    }
+
+    static ViewGroup getFocusViewGroup() {
+        return ForemFocusViewGroup.focusViewGroup;
+    }
+
+    static void setFocusViewGroup(ViewGroup viewGroup) {
+        ForemFocusViewGroup.focusViewGroup = viewGroup;
+    }
+
+    static View getFocusView() {
+        return ForemFocusView.focusView;
+    }
+
+    static void setFocusView(View view) {
+        ForemFocusView.focusView = view;
+    }
 }

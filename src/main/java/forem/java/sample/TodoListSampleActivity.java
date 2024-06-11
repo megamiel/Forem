@@ -34,36 +34,36 @@ public class TodoListSampleActivity extends ForemActivity {
                         return;
                     get(taskEditText).setText("");
                     get(todoList).add(taskName);
-                    ignite(todoList);
+//                    ignite(todoList);
                 });
             });
         });
         ForemListView.create(() -> {
             layout(match_parent, 0, 89);
         }).render(() -> {
-            onChange(todoList, () -> {
-                clearChild();
-                get(todoList).forEach((todo, index) -> {
-                    this.<HorizontalLayout>create(() -> {
-                        layout(match_parent, wrap_content);
-                    }).render(() -> {
-                        this.<TextView>create(() -> {
-                            layout(0, match_parent, 60);
-                            text(todo);
-                            textSize(26);
-                        });
-                        this.<Button>create(() -> {
-                            layout(0, match_parent, 40);
-                            text("完了");
-                            textSize(18);
-                            onClick(() -> {
-                                get(todoList).remove(index);
-                                ignite(todoList);
-                            });
-                        });
-                    });
-                });
-            });
+//            onChange(todoList, () -> {
+//                clearChild();
+//                get(todoList).forEach((todo, index) -> {
+//                    this.<HorizontalLayout>create(() -> {
+//                        layout(match_parent, wrap_content);
+//                    }).render(() -> {
+//                        this.<TextView>create(() -> {
+//                            layout(0, match_parent, 60);
+//                            text(todo);
+//                            textSize(26);
+//                        });
+//                        this.<Button>create(() -> {
+//                            layout(0, match_parent, 40);
+//                            text("完了");
+//                            textSize(18);
+//                            onClick(() -> {
+//                                get(todoList).remove(index);
+//                                ignite(todoList);
+//                            });
+//                        });
+//                    });
+//                });
+//            });
         });
     }
 }

@@ -66,4 +66,8 @@ public class ForemElement<V extends View> {
         return this;
     }
 
+
+    protected V getV(){
+        return v;
+    }
 }

@@ -100,7 +100,7 @@ public class MainActivity extends ForemActivity {
     public void render(Root root) {
 
         // ボタン要素を作成
-        this.<Button>create(() -> {
+        $.<Button>create(() -> {
             // 左から順に、width, heightを指定
             layout(match_parent, match_parent);
             text("NOT CLICKED");

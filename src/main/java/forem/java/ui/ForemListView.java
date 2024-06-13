@@ -14,8 +14,7 @@ public interface ForemListView {
         ForemFocusView.focusView = scrollView;
         fs.set();
         VerticalLayout verticalLayout = new VerticalLayout(scrollView.getContext());
-        verticalLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        verticalLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         scrollView.addView(verticalLayout);
         ForemFocusViewGroup.focusViewGroup.addView(scrollView);
         return new ForemElement<>(scrollView, verticalLayout);
@@ -26,8 +25,7 @@ public interface ForemListView {
         ForemFocusView.focusView = scrollView;
         fs.set(scrollView);
         LinearLayout linearLayout = new LinearLayout(scrollView.getContext());
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(linearLayout);
         ForemFocusViewGroup.focusViewGroup.addView(scrollView);

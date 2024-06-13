@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import forem.java.extensions.Arg;
 import forem.java.extensions.CLASS;
 import forem.java.extensions.ForemFunctions;
 import forem.java.extensions.function;
@@ -74,7 +75,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
     default void text(String text) {
-        ((TextView) ForemFocusView.focusView).setText(text);
+        ((TextView) ForemFocusView.focusView).setText(text==null?"null":text);
     }
 
     default void textSize(float size) {
@@ -156,25 +157,6 @@ public interface ForemOrigin extends ForemFunctions {
     default void rotate(float angle) {
         ForemFocusView.focusView.setRotation(angle);
     }
-
-    default void vertical(LinearLayout linearLayout) {
-        linearLayout.setOrientation(vertical);
-    }
-
-    default void horizontal(LinearLayout linearLayout) {
-        linearLayout.setOrientation(horizontal);
-    }
-
-    @Deprecated
-    default void vertical() {
-        vertical((LinearLayout) ForemFocusView.focusView);
-    }
-
-    @Deprecated
-    default void horizontal() {
-        horizontal((LinearLayout) ForemFocusView.focusView);
-    }
-
 
     private void clearChild() {
         ForemFocusViewGroup.focusViewGroup.removeAllViews();
@@ -304,6 +286,12 @@ public interface ForemOrigin extends ForemFunctions {
 
     default <C extends CLASS> ForemUnaryComponent<C> component(C c, ForemUnaryComponent<C> fc) {
         return fc;
+    }
+
+
+
+    default <A extends Arg> ForemUnaryComponentWrapper<A> component(A a, ForemUnaryComponent<A> fc) {
+        return new ForemUnaryComponentWrapper<>(fc,a);
     }
 
     default <C> ForemUnaryComponent<C> component(Class<C> clazz, ForemUnaryComponent<C> fc) {

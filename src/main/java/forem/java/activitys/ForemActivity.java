@@ -8,6 +8,7 @@ import forem.java.ui.Forem;
 import forem.java.ui.ForemFocusViewGroup;
 
 public abstract class ForemActivity extends AppCompatActivity implements Forem {
+    protected final ForemActivity $=this;
     @Override
     protected final void onCreate(Bundle bundle) {
         super.onCreate(bundle);

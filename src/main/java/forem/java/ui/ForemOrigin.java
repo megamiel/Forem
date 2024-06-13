@@ -15,7 +15,6 @@ import android.widget.TextView;
 import forem.java.extensions.Arg;
 import forem.java.extensions.CLASS;
 import forem.java.extensions.ForemFunctions;
-import forem.java.extensions.function;
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.functionalInterfaces.ForemUnarySetter;
 import forem.java.views.VarArea;
@@ -24,7 +23,6 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public interface ForemOrigin extends ForemFunctions {
     int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -75,7 +73,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
     default void text(String text) {
-        ((TextView) ForemFocusView.focusView).setText(text==null?"null":text);
+        ((TextView) ForemFocusView.focusView).setText(text == null ? "null" : text);
     }
 
     default void textSize(float size) {
@@ -284,14 +282,9 @@ public interface ForemOrigin extends ForemFunctions {
         return fc;
     }
 
-    default <C extends CLASS> ForemUnaryComponent<C> component(C c, ForemUnaryComponent<C> fc) {
-        return fc;
-    }
-
-
 
     default <A extends Arg> ForemUnaryComponentWrapper<A> component(A a, ForemUnaryComponent<A> fc) {
-        return new ForemUnaryComponentWrapper<>(fc,a);
+        return new ForemUnaryComponentWrapper<>(fc, a);
     }
 
     default <C> ForemUnaryComponent<C> component(Class<C> clazz, ForemUnaryComponent<C> fc) {
@@ -464,11 +457,6 @@ public interface ForemOrigin extends ForemFunctions {
     // default <T> void onChange(Var<T> var, ForemUnarySetter<T> fs) {
     // ForemOnChangeEventScope.render(var, fs);
     // }
-
-    @Deprecated
-    default <T> T function(function func, Object... args) {
-        return cast(func.exe(args));
-    }
 
 //    default <T> void focus(Var<T> var, ForemUnarySetter<T> fs) {
 //        fs.set(var.get());

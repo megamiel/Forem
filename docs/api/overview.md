@@ -120,64 +120,43 @@ $.<TextView>create(()->{
     reusableBackground.export();
 });
 ```
+<h3 id="Component">Component</h3>
 
-
-<h3 id="ForemComponent">ForemComponent</h3>
-
-`ForemComponent`は画面に描画されるコンポーネントを作成するためのクラスです。
-
-#### 引数なしの場合のサンプルコード
-以下のサンプルコードを実行すると、`sample`というTextViewが描画されます。
-```java
-// 引数なしのコンポーネントを作成
-var sampleComponent = component(()->{
-    $.<TextView>create(()->{
-        layout(wrap_content,wrap_content);
-        text("sample");
-    });
-});
-// sampleComponentのexportを呼び出すことで、sampleComponentで実装した描画処理が実行される。
-sampleComponent.export();
-```
-#### 引数ありの場合のサンプルコード
-以下のサンプルコードを実行すると、`sample6`というTextViewが描画されます。
-
-```java
-// Stringクラスを引数として受け取るコンポーネントを作成
-var sampleComponent = component(String.class, arg -> {
-    $.<TextView>create(() -> {
-        layout(wrap_content, wrap_content);
-        text(arg + arg.length());
-    });
-});
-
-// sampleComponentのexportにStringを渡すことで、sampleComponentで実装した描画処理が実行される。
-sampleComponent.export("sample");
-``` 
-
-<h3 id="Arg">Arg</h3>
-
-`Arg`はローカルな引数を作成するためのクラスです。  
-一般的には、コンポーネントの引数を設定するためにArgクラスを使用します。  
-以下のサンプルコードを実行すると、`10sample`というTextViewが描画されます。
+`Component`はコンポーネントベースで開発を行うためのクラスです。  
+従来のAndroidStudioでは、Fragmentクラスが似た役割を果たしていました。  
+以下のサンプルコードを実行すると、テキストが"sample",テキストサイズが30のTextViewが描画されます。
 #### サンプルコード
+#### SampleComponent.java
 ```java
-// new Arg(){変数宣言}によって、引数を設定できる
-var sampleComponent = component(new Arg(){
-    int a;
-    String b;
-}, arg -> {
-    $.<TextView>create(() -> {
-        layout(wrap_content, wrap_content);
-        // 受け取ったargのa,bを使用
-        text(arg.a + arg.b);
-    });
-});
-
-// [arg.引数名 = 値]で、引数を設定し、sampleComponentで実装した描画処理を実行する。
-sampleComponent.export(arg->{
-    arg.a = 10;
-    arg.b = "sample";
-});
-
+public class SampleComponent extends Component {
+    // 引数a,bを定義
+    String a;
+    int b;
+    @Override
+    protected void export() {
+        $.<VerticalLayout>create(()->{
+            layout(match_parent);
+        }).render(()->{
+            $.<TextView>create(()->{
+                layout(match_parent,0,50);
+                text(a);
+                textSize(b);
+            });
+        });
+    }
+}
 ```
+
+#### SampleActivity.java
+```java
+public class SampleActivity extends ForemActivity{
+    @Override
+    public void render(Root root) {
+        $.<SampleComponent>export(args->{
+            args.a = "sample";
+            args.b = 30;
+        });
+    }
+}
+```
+

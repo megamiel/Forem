@@ -12,5 +12,5 @@ public abstract class Component implements ForemOrigin {
         $=activity[v];
     }
 
-    protected abstract void export();
+    public abstract void export();
 }

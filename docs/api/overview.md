@@ -14,7 +14,7 @@
 public class SampleActivity extends ForemActivity{
     @Override
     public void render(Root root){
-        this.<TextView>create(()->{
+        $.<TextView>create(()->{
             layout(match_parent,match_parent);
             text("sample");
         });
@@ -23,7 +23,7 @@ public class SampleActivity extends ForemActivity{
 ```
 また、要素を生成する際は、以下のように記述します。  
 ```java
-this.<Viewクラス>create(()->{
+$.<Viewクラス>create(()->{
     // 要素の属性設定
 });
 ```
@@ -35,14 +35,14 @@ this.<Viewクラス>create(()->{
 以下のサンプルコードでは、createメソッドで要素の属性設定を行い、続くrenderメソッドでHorizontalLayoutの子要素のレイアウトを記述しています。
 #### サンプルコード
 ```java
-this.<HorizontalLayout>create(()->{
+$.<HorizontalLayout>create(()->{
     layout(match_parent,match_parent);
 }).render(()->{
-    this.<TextView>create(()->{
+    $.<TextView>create(()->{
         layout(wrap_content,wrap_content);
         text("sample text");
     });
-    this.<Button>create(()->{
+    $.<Button>create(()->{
         layout(wrap_content,wrap_content);
         text("sample button");
     });
@@ -50,7 +50,7 @@ this.<HorizontalLayout>create(()->{
 ```
 以下は、要素の属性設定や子要素のレイアウトを省略したコードです。
 ```java
-this.<HorizontalLayou>create(()->{
+$.<HorizontalLayou>create(()->{
     // 要素の属性設定
 }).render(()->{
     // 子要素のレイアウト
@@ -64,14 +64,14 @@ this.<HorizontalLayou>create(()->{
 以下のサンプルコードでは、createメソッドで要素の属性設定を行い、続くrenderメソッドでVerticalLayoutの子要素のレイアウトを記述しています。
 #### サンプルコード
 ```java
-this.<VerticalLayout>create(()->{
+$.<VerticalLayout>create(()->{
     layout(match_parent,match_parent);
 }).render(()->{
-    this.<TextView>create(()->{
+    $.<TextView>create(()->{
         layout(wrap_content,wrap_content);
         text("sample text");
     });
-    this.<Button>create(()->{
+    $.<Button>create(()->{
         layout(wrap_content,wrap_content);
         text("sample button");
     });
@@ -79,7 +79,7 @@ this.<VerticalLayout>create(()->{
 ```
 以下は、要素の属性設定や子要素のレイアウトを省略したコードです。
 ```java
-this.<VerticalLayout>create(()->{
+$.<VerticalLayout>create(()->{
     // 要素の属性設定
 }).render(()->{
     // 子要素のレイアウト
@@ -93,7 +93,7 @@ drawableにXMLファイルで記述していた背景レイアウトをJavaフ�
 しかし、インスタンスを生成すると、現在生成中のViewに適応されてしまうため、再使用は不可能になっています。
 #### サンプルコード
 ```java
-this.<TextView>create(()->{
+$.<TextView>create(()->{
     layout(match_parent, match_parent);
     text("sample");
     new Background(){{
@@ -114,7 +114,7 @@ var reusableBackground = new ReusableBackground(){{
     setColor(Color.RED);
     setCornerRadius(100);
 }};
-this.<TextView>create(()->{
+$.<TextView>create(()->{
     layout(match_parent, match_parent);
     text("sample");
     reusableBackground.export();
@@ -131,7 +131,7 @@ this.<TextView>create(()->{
 ```java
 // 引数なしのコンポーネントを作成
 var sampleComponent = component(()->{
-    return this.<TextView>create(()->{
+    $.<TextView>create(()->{
         layout(wrap_content,wrap_content);
         text("sample");
     });
@@ -145,7 +145,7 @@ sampleComponent.export();
 ```java
 // Stringクラスを引数として受け取るコンポーネントを作成
 var sampleComponent = component(String.class, arg -> {
-    return this.<TextView>create(() -> {
+    $.<TextView>create(() -> {
         layout(wrap_content, wrap_content);
         text(arg + arg.length());
     });
@@ -155,36 +155,29 @@ var sampleComponent = component(String.class, arg -> {
 sampleComponent.export("sample");
 ``` 
 
-<h3 id="CLASS">CLASS</h3>
+<h3 id="Arg">Arg</h3>
 
-`CLASS`は一時的なクラスを作成するためのクラスです。  
-一般的には、コンポーネントの引数を設定するためにCLASSクラスを使用します。  
+`Arg`はローカルな引数を作成するためのクラスです。  
+一般的には、コンポーネントの引数を設定するためにArgクラスを使用します。  
 以下のサンプルコードを実行すると、`10sample`というTextViewが描画されます。
 #### サンプルコード
 ```java
-// クラスを作成(メンバ変数:a,b)
-var SampleClass = new CLASS(){
+// new Arg(){変数宣言}によって、引数を設定できる
+var sampleComponent = component(new Arg(){
     int a;
     String b;
-};
-
-// SampleClassクラスを引数として受け取るコンポーネントを作成。
-// argには、渡された引数が格納される。
-var sampleComponent = component(SampleClass, arg -> {
-    return this.<TextView>create(() -> {
+}, arg -> {
+    $.<TextView>create(() -> {
         layout(wrap_content, wrap_content);
+        // 受け取ったargのa,bを使用
         text(arg.a + arg.b);
     });
 });
 
-// SampleClassクラスのインスタンスを生成
-var sampleData = varType(SampleClass);
-
-// 生成したインスタンスのメンバ変数a,bに値を代入
-get(sampleData).a = 10;
-get(sampleData).b = "sample";
-
-//sampleComponentのexportに生成したインスタンスを引数として渡すことで、sampleComponentで実装した描画処理が実行される。
-sampleComponent.export(sampleData);
+// [arg.引数名 = 値]で、引数を設定し、sampleComponentで実装した描画処理を実行する。
+sampleComponent.export(arg->{
+    arg.a = 10;
+    arg.b = "sample";
+});
 
 ```

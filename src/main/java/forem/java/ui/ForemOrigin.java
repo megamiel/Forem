@@ -1,6 +1,5 @@
 package forem.java.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Gravity;
@@ -12,7 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
-import forem.java.extensions.Arg;
+import forem.java.activitys.ForemActivity;
+import forem.java.extensions.Args;
 import forem.java.extensions.CLASS;
 import forem.java.extensions.ForemFunctions;
 import forem.java.functionalInterfaces.ForemNullarySetter;
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ForemOrigin extends ForemFunctions {
+    ForemActivity[] activity={null};
     int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
     int wrap_content = LinearLayout.LayoutParams.WRAP_CONTENT;
     int vertical = LinearLayout.VERTICAL;
@@ -65,7 +66,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
     default <V extends View> V findViewById(String id) {
-        return ((Activity) this).findViewById(id.hashCode());
+        return activity[v].findViewById(id.hashCode());
     }
 
     default void weightSum(int weight) {
@@ -228,6 +229,23 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
+    default <V extends View> ForemElement<V> create(V[] var, ForemUnarySetter<V> fs, V... ignore) {
+        assert ignore.length == 0;
+        Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
+        try {
+            Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
+            V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
+            set(var, instance);
+            ForemFocusView.focusView = instance;
+            ForemElement<V> newForemElement =
+                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+            return newForemElement.attribute(fs);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     default <V extends VarArea> ForemElement<VarArea> create(ForemNullarySetter fs) {
         try {
             Constructor<VarArea> constructor = VarArea.class.getDeclaredConstructor(Context.class);
@@ -283,7 +301,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
 
-    default <A extends Arg> ForemUnaryComponentWrapper<A> component(A a, ForemUnaryComponent<A> fc) {
+    default <A extends Args> ForemUnaryComponentWrapper<A> component(A a, ForemUnaryComponent<A> fc) {
         return new ForemUnaryComponentWrapper<>(fc, a);
     }
 
@@ -295,13 +313,26 @@ public interface ForemOrigin extends ForemFunctions {
         newInstance(clazz).export();
     }
 
+    default <C extends Component> void export(ForemUnarySetter<C> fs,C... ignore){
+        Class<C> clazz=cast(ignore.getClass().getComponentType());
+        try {
+            Constructor<C> constructor = clazz.getDeclaredConstructor();
+            C instance = constructor.newInstance();
+            fs.set(instance);
+            instance.export();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
+
     default void craftmincho() {
-        Typeface craftmincho = Typeface.createFromAsset(((Activity) this).getAssets(), "craftmincho.otf");
+        Typeface craftmincho = Typeface.createFromAsset(activity[v].getAssets(), "craftmincho.otf");
         ((TextView) ForemFocusView.focusView).setTypeface(craftmincho);
     }
 
     default void font(String fontName) {
-        Typeface typeface = Typeface.createFromAsset(((Activity) this).getAssets(), fontName);
+        Typeface typeface = Typeface.createFromAsset(activity[v].getAssets(), fontName);
         ((TextView) ForemFocusView.focusView).setTypeface(typeface);
     }
 
@@ -349,8 +380,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
 
-    @Deprecated
-    default <E> void set(E[] var, E value) {
+    private <E> void set(E[] var, E value) {
         var[v] = value;
         if (ForemOnChangeEventScope.onChangeMap.containsKey(var)) {
             ForemOnChangeEventScope.onChangeMap.get(var).forEach(fs -> {
@@ -412,40 +442,6 @@ public interface ForemOrigin extends ForemFunctions {
         ForemOnChangeEventScope.onChangeMap.get(var).add(newFs);
     }
 
-    // ForemList<ForemNullarySetter> observer =new ForemList<>();
-
-    // default <E> void testOnChange(E[] var,ForemNullarySetter fs){
-    // if (!ForemOnChangeEventScope.onChangeMap.containsKey(var)) {
-    // ForemOnChangeEventScope.onChangeMap.put(var, new ArrayList<>());
-    // }
-    // ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
-    // View self = ForemFocusView.focusView;
-    // ForemUnarySetter<E> newFs = e -> {
-    // ViewGroup cacheViewGroup = ForemFocusViewGroup.focusViewGroup;
-    // View cacheView = ForemFocusView.focusView;
-    // ForemFocusViewGroup.focusViewGroup = parent;
-    // ForemFocusView.focusView = self;
-    // fs.set();
-    // ForemFocusViewGroup.focusViewGroup = cacheViewGroup;
-    // ForemFocusView.focusView = cacheView;
-    // };
-    // ForemOnChangeEventScope.onChangeMap.get(var).add(newFs);
-    //
-    // ForemUnarySetter<E[]> fus=arg->{
-    // if(ForemOnChangeEventScope.varValueMap.get(arg)!=arg[v]){
-    // ForemOnChangeEventScope.varValueMap.put(arg,arg[v]);
-    // ForemOnChangeEventScope.onChangeMap.get(arg).forEach(sfs->{
-    // ((ForemUnarySetter<E>)sfs).set(arg[v]);
-    // });
-    // }
-    // };
-    // observer.add(()->fus.set(var));
-    // }
-
-    // default void testCheck(){
-    // observer.forEach(ForemNullarySetter::set);
-    // }
-
 
     default void onClick(ForemNullarySetter fs) {
         ForemOnClickEventScope.render(ForemFocusView.focusView, fs);
@@ -454,13 +450,6 @@ public interface ForemOrigin extends ForemFunctions {
     default <T> void onLongClick(ForemNullarySetter fs) {
         ForemOnLongClickEventScope.render(ForemFocusView.focusView, fs);
     }
-    // default <T> void onChange(Var<T> var, ForemUnarySetter<T> fs) {
-    // ForemOnChangeEventScope.render(var, fs);
-    // }
-
-//    default <T> void focus(Var<T> var, ForemUnarySetter<T> fs) {
-//        fs.set(var.get());
-//    }
 
     static ViewGroup getFocusViewGroup() {
         return ForemFocusViewGroup.focusViewGroup;

@@ -1,6 +1,6 @@
 package forem.java.extensions;
 
-public abstract class Arg implements Cloneable{
+public abstract class Args implements Cloneable{
     public Object clone() {
         try {
             return super.clone();

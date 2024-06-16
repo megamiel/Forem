@@ -2,6 +2,7 @@ package forem.java.extensions;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 import java.lang.reflect.Constructor;
 
@@ -46,6 +47,7 @@ public interface ForemFunctions {
         return xInstance;
     }
 
+    @Deprecated
     default <A extends Activity> void startActivity(Class<A> clazz) {
         ((Activity) this).startActivity(new Intent((Activity) this, clazz));
     }
@@ -54,5 +56,9 @@ public interface ForemFunctions {
         Thread thread = new Thread(runnable);
         thread.start();
         return thread;
+    }
+
+    default void log(Object log) {
+        Log.d("Log", log.toString());
     }
 }

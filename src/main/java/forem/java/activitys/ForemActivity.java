@@ -7,9 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.ui.Forem;
-import forem.java.ui.ForemFocusViewGroup;
-import forem.java.ui.ForemOrigin;
-import forem.java.ui.ForemUnaryComponent;
 
 public abstract class ForemActivity extends AppCompatActivity implements Forem {
     protected final ForemActivity $ = this;

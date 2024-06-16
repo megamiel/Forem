@@ -2,6 +2,7 @@ package forem.java.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public interface ForemOrigin extends ForemFunctions {
     ForemActivity[] activity = {null};
@@ -490,7 +492,59 @@ public interface ForemOrigin extends ForemFunctions {
         builder.create().show();
     }
 
-    default void log(Object log) {
-        Log.d("Log", log.toString());
+    private SharedPreferences getSharedPreference() {
+        return activity[v].getPreferences(Context.MODE_PRIVATE);
+    }
+
+    private SharedPreferences.Editor getSharedEditor() {
+        return getSharedPreference().edit();
+    }
+
+    default void putShared(String key, String value) {
+        getSharedEditor().putString(key, value).apply();
+    }
+
+    default void putShared(String key, int value) {
+        getSharedEditor().putInt(key, value).apply();
+    }
+
+    default void putShared(String key, float value) {
+        getSharedEditor().putFloat(key, value).apply();
+    }
+
+    default void putShared(String key, long value) {
+        getSharedEditor().putLong(key, value).apply();
+    }
+
+    default void putShared(String key, boolean value) {
+        getSharedEditor().putBoolean(key, value).apply();
+    }
+
+    default void putShared(String key, Set<String> value) {
+        getSharedEditor().putStringSet(key, value).apply();
+    }
+
+    default String getShared(String key, String undefinedValue) {
+        return getSharedPreference().getString(key, undefinedValue);
+    }
+
+    default int getShared(String key, int undefinedValue) {
+        return getSharedPreference().getInt(key, undefinedValue);
+    }
+
+    default float getShared(String key, float undefinedValue) {
+        return getSharedPreference().getFloat(key, undefinedValue);
+    }
+
+    default long getShared(String key, long undefinedValue) {
+        return getSharedPreference().getLong(key, undefinedValue);
+    }
+
+    default boolean getShared(String key, boolean undefinedValue) {
+        return getSharedPreference().getBoolean(key, undefinedValue);
+    }
+
+    default Set<String> getShared(String key, Set<String> undefinedValue) {
+        return getSharedPreference().getStringSet(key, undefinedValue);
     }
 }

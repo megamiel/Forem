@@ -5,6 +5,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import forem.java.activitys.ForemActivity;
+import forem.java.annotation.Preview;
 import forem.java.extensions.ForemList;
 import forem.java.ui.ForemListView;
 import forem.java.views.HorizontalLayout;

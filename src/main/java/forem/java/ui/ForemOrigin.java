@@ -1,7 +1,9 @@
 package forem.java.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import forem.java.activitys.ForemActivity;
 import forem.java.extensions.Args;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ForemOrigin extends ForemFunctions {
-    ForemActivity[] activity={null};
+    ForemActivity[] activity = {null};
     int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
     int wrap_content = LinearLayout.LayoutParams.WRAP_CONTENT;
     int vertical = LinearLayout.VERTICAL;
@@ -251,8 +254,7 @@ public interface ForemOrigin extends ForemFunctions {
             Constructor<VarArea> constructor = VarArea.class.getDeclaredConstructor(Context.class);
             VarArea instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
             ForemFocusView.focusView = instance;
-            ForemElement<VarArea> newForemElement =
-                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+            ForemElement<VarArea> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
             ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
             ForemFocusViewGroup.focusViewGroup = newForemElement.getV();
             newForemElement.attribute(fs);
@@ -313,14 +315,14 @@ public interface ForemOrigin extends ForemFunctions {
         newInstance(clazz).export();
     }
 
-    default <C extends Component> void export(ForemUnarySetter<C> fs,C... ignore){
-        Class<C> clazz=cast(ignore.getClass().getComponentType());
+    default <C extends Component> void export(ForemUnarySetter<C> fs, C... ignore) {
+        Class<C> clazz = cast(ignore.getClass().getComponentType());
         try {
             Constructor<C> constructor = clazz.getDeclaredConstructor();
             C instance = constructor.newInstance();
             fs.set(instance);
             instance.export();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -465,5 +467,30 @@ public interface ForemOrigin extends ForemFunctions {
 
     static void setFocusView(View view) {
         ForemFocusView.focusView = view;
+    }
+
+    default void showToast(Object message) {
+        Toast.makeText(activity[v], message.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    default void alert(String message, ForemUnarySetter<ForemAlert> fs) {
+        ForemAlert alert = new ForemAlert();
+        fs.set(alert);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity[v]);
+        builder.setTitle(alert.title);
+        builder.setMessage(message);
+        builder.setPositiveButton(alert.yesText, (dialog, which) -> {
+            alert.onYes.set();
+            dialog.dismiss();
+        });
+        builder.setNegativeButton(alert.noText, (dialog, which) -> {
+            alert.onNo.set();
+            dialog.dismiss();
+        });
+        builder.create().show();
+    }
+
+    default void log(Object log) {
+        Log.d("Log", log.toString());
     }
 }

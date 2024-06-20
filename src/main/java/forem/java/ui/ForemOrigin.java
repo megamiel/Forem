@@ -3,6 +3,7 @@ package forem.java.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import forem.java.activitys.ForemActivity;
+import forem.java.annotation.Preview;
 import forem.java.extensions.Args;
 import forem.java.extensions.CLASS;
 import forem.java.extensions.ForemFunctions;
@@ -106,6 +108,25 @@ public interface ForemOrigin extends ForemFunctions {
         ForemFocusView.focusView.setBackgroundResource(resouceId);
     }
 
+    default int rgb(String colorCode) {
+        int result = 0;
+        char[] tokens = colorCode.toCharArray();
+        if (colorCode.length() == 6) {
+            String red = "" + tokens[0] + tokens[1];
+            String green = "" + tokens[2] + tokens[3];
+            String blue = "" + tokens[4] + tokens[5];
+            result = Color.rgb(Integer.parseInt(red, 16), Integer.parseInt(green, 16), Integer.parseInt(blue, 16));
+        } else if (colorCode.length() == 3) {
+            String red = "" + tokens[0] + tokens[0];
+            String green = "" + tokens[1] + tokens[1];
+            String blue = "" + tokens[2] + tokens[2];
+            result = Color.rgb(Integer.parseInt(red, 16), Integer.parseInt(green, 16), Integer.parseInt(blue, 16));
+        } else {
+            assert false : "argument colorCode's length is not 3 or 6";
+        }
+        return result;
+    }
+
     default void image(int drawableId) {
         ((ImageView) ForemFocusView.focusView).setImageResource(drawableId);
     }
@@ -167,7 +188,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
     default <V extends View> ForemElement<V> create(ForemNullarySetter fs, V... ignore) {
-        assert ignore.length == 0;
+        assert ignore.length == 0 : "argument ignore is not ignored";
         Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
         try {
             Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
@@ -183,7 +204,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
     default <V extends View> ForemElement<V> create(ForemUnarySetter<V> fs, V... ignore) {
-        assert ignore.length == 0;
+        assert ignore.length == 0 : "argument ignore is not ignored";
         Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
         try {
             Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
@@ -198,27 +219,8 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
-
-//    default <V extends View> ForemElement<V> create(Var<V> var, ForemNullarySetter fs,
-//                                                    V... ignore) {
-//        assert ignore.length == 0;
-//        Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
-//        try {
-//            Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
-//            V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
-//            var.set(instance);
-//            ForemFocusView.focusView = instance;
-//            ForemElement<V> newForemElement =
-//                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
-//            return newForemElement.attribute(fs);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
-
     default <V extends View> ForemElement<V> create(V[] var, ForemNullarySetter fs, V... ignore) {
-        assert ignore.length == 0;
+        assert ignore.length == 0 : "argument ignore is not ignored";
         Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
         try {
             Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
@@ -235,7 +237,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
     default <V extends View> ForemElement<V> create(V[] var, ForemUnarySetter<V> fs, V... ignore) {
-        assert ignore.length == 0;
+        assert ignore.length == 0 : "argument ignore is not ignored";
         Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
         try {
             Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
@@ -267,25 +269,6 @@ public interface ForemOrigin extends ForemFunctions {
             return null;
         }
     }
-
-//    default <V extends
-//            View> ForemElement<V> create(Var<V> var, ForemUnarySetter<V> fs,
-//                                         V... ignore) {
-//        assert ignore.length == 0;
-//        Class<V> clazz = (Class<V>) ignore.getClass().getComponentType();
-//        try {
-//            Constructor<V> constructor = clazz.getDeclaredConstructor(Context.class);
-//            V instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
-//            var.set(instance);
-//            ForemFocusView.focusView = instance;
-//            ForemElement<V> newForemElement =
-//                    new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
-//            return newForemElement.attribute(fs);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
 
 
     default void url(String url) {
@@ -343,6 +326,38 @@ public interface ForemOrigin extends ForemFunctions {
 
     int v = 0;
 
+    default int[] var(int e) {
+        return new int[]{e};
+    }
+
+    default long[] var(long e) {
+        return new long[]{e};
+    }
+
+    default short[] var(short e) {
+        return new short[]{e};
+    }
+
+    default byte[] var(byte e) {
+        return new byte[]{e};
+    }
+
+    default char[] var(char e) {
+        return new char[]{e};
+    }
+
+    default boolean[] var(boolean e) {
+        return new boolean[]{e};
+    }
+
+    default double[] var(double e) {
+        return new double[]{e};
+    }
+
+    default float[] var(float e) {
+        return new float[]{e};
+    }
+
     default <E> E[] var(E e) {
         Class<E> type = (Class<E>) e.getClass();
         E[] ret = (E[]) Array.newInstance(type, 1);
@@ -354,8 +369,41 @@ public interface ForemOrigin extends ForemFunctions {
         return (E[]) Array.newInstance(type, 1);
     }
 
+    @Deprecated
     default <C extends CLASS> C[] varType(C clazz) {
         return var((C) clazz.clone());
+    }
+
+    default int[] array(int... elements) {
+        return elements;
+    }
+
+    default long[] array(long... elements) {
+        return elements;
+    }
+
+    default short[] array(short... elements) {
+        return elements;
+    }
+
+    default byte[] array(byte... elements) {
+        return elements;
+    }
+
+    default char[] array(char... elements) {
+        return elements;
+    }
+
+    default double[] array(double... elements) {
+        return elements;
+    }
+
+    default float[] array(float... elements) {
+        return elements;
+    }
+
+    default <E> E[] array(E... elements) {
+        return elements;
     }
 
     private <E> void varArea(E[] e, ForemNullarySetter fs) {

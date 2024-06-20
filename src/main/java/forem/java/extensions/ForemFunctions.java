@@ -58,6 +58,10 @@ public interface ForemFunctions {
         return thread;
     }
 
+    default String format(String str, Object... args) {
+        return String.format(str.replace("{}", "%s"), args);
+    }
+
     default void log(Object log) {
         Log.d("Log", log.toString());
     }

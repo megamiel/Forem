@@ -2,6 +2,7 @@ package forem.java.ui;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.functionalInterfaces.ForemUnarySetter;
@@ -14,6 +15,7 @@ public class ForemElement<V extends View> {
     public ForemElement(ViewGroup viewGroup, V v) {
         this.viewGroup = viewGroup;
         this.v = v;
+        this.v.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     protected ForemElement<V> attribute(ForemNullarySetter fs) {
@@ -67,7 +69,7 @@ public class ForemElement<V extends View> {
     }
 
 
-    protected V getV(){
+    protected V getV() {
         return v;
     }
 }

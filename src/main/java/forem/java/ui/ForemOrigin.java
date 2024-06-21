@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
@@ -33,27 +36,19 @@ import java.util.Set;
 
 public interface ForemOrigin extends ForemFunctions {
     ForemActivity[] activity = {null};
+
     int match_parent = LinearLayout.LayoutParams.MATCH_PARENT;
     int wrap_content = LinearLayout.LayoutParams.WRAP_CONTENT;
-    int vertical = LinearLayout.VERTICAL;
-    int horizontal = LinearLayout.HORIZONTAL;
-
-    private LinearLayout.LayoutParams layoutParams(int width, int height) {
-        return new LinearLayout.LayoutParams(width, height);
-    }
-
-    private LinearLayout.LayoutParams layoutParams(int width, int height, int weight) {
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, height);
-        lp.weight = weight;
-        return lp;
-    }
 
     default void layoutView(View view, int width, int height) {
-        view.setLayoutParams(layoutParams(width, height));
+        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).width=width;
+        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).height=height;
     }
 
     default void layoutView(View view, int width, int height, int weightPercent) {
-        view.setLayoutParams(layoutParams(width, height, weightPercent));
+        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).width=width;
+        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).height=height;
+        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).weight=weightPercent;
     }
 
     default void layout(int widthAndHeight) {
@@ -182,6 +177,128 @@ public interface ForemOrigin extends ForemFunctions {
     default void rotate(float angle) {
         ForemFocusView.focusView.setRotation(angle);
     }
+
+//    int left
+//    int top
+//    int right
+//    int bottom
+
+    default void padding(int padding){
+        padding(padding,padding,padding,padding);
+    }
+
+    default void padding(int topAndBottom,int leftAndRight){
+        padding(topAndBottom,leftAndRight,topAndBottom,leftAndRight);
+    }
+
+    default void padding(int top,int leftAndRight,int bottom){
+        padding(top,leftAndRight,bottom,leftAndRight);
+    }
+
+    default void padding(int top,int right,int bottom,int left){
+        getFocusView().setPadding(left,top,right,bottom);
+    }
+
+
+    default void paddingTop(int top){
+        View view=getFocusView();
+        int[] paddings=getPaddings(view);
+        paddings[0]=top;
+        _padding(paddings);
+    }
+
+    default void paddingRight(int right){
+        View view=getFocusView();
+        int[] paddings=getPaddings(view);
+        paddings[1]=right;
+        _padding(paddings);
+    }
+
+    default void paddingBottom(int bottom){
+        View view=getFocusView();
+        int[] paddings=getPaddings(view);
+        paddings[2]=bottom;
+        _padding(paddings);
+    }
+
+    default void paddingLeft(int left){
+        View view=getFocusView();
+        int[] paddings=getPaddings(view);
+        paddings[3]=left;
+        _padding(paddings);
+    }
+
+    private int[] getPaddings(View view){
+        int top=view.getPaddingTop();
+        int right=view.getPaddingRight();
+        int bottom=view.getPaddingBottom();
+        int left=view.getPaddingLeft();
+        return new int[]{top,right,bottom,left};
+    }
+
+    private void _padding(int... paddings){
+        padding(paddings[0],paddings[1],paddings[2],paddings[3]);
+    }
+
+    default void margin(int margin){
+        margin(margin,margin,margin,margin);
+    }
+
+    default void margin(int topAndBottom,int leftAndRight){
+        margin(topAndBottom,leftAndRight,topAndBottom,leftAndRight);
+    }
+
+    default void margin(int top,int leftAndRight,int bottom){
+        margin(top,leftAndRight,bottom,leftAndRight);
+    }
+
+    default void margin(int top,int right,int bottom,int left){
+        cast(getFocusView().getLayoutParams(),LinearLayout.LayoutParams.class).setMargins(left,top,right,bottom);
+    }
+
+
+
+    default void marginTop(int top){
+        View view=getFocusView();
+        int[] margins=getMargins(view);
+        margins[0]=top;
+        _margins(margins);
+    }
+
+    default void marginRight(int right){
+        View view=getFocusView();
+        int[] margins=getMargins(view);
+        margins[1]=right;
+        _margins(margins);
+    }
+
+    default void marginBottom(int bottom){
+        View view=getFocusView();
+        int[] margins=getMargins(view);
+        margins[2]=bottom;
+        _margins(margins);
+    }
+
+    default void marginLeft(int left){
+        View view=getFocusView();
+        int[] margins=getMargins(view);
+        margins[3]=left;
+        _margins(margins);
+    }
+
+    private int[] getMargins(View view){
+        LinearLayout.LayoutParams lp=cast(view.getLayoutParams(),LinearLayout.LayoutParams.class);
+        int top=lp.topMargin;
+        int right=lp.rightMargin;
+        int bottom=lp.bottomMargin;
+        int left=lp.leftMargin;
+        return new int[]{top,right,bottom,left};
+    }
+
+    private void _margins(int... margins){
+        margin(margins[0],margins[1],margins[2],margins[3]);
+    }
+
 
     private void clearChild() {
         ForemFocusViewGroup.focusViewGroup.removeAllViews();
@@ -492,6 +609,27 @@ public interface ForemOrigin extends ForemFunctions {
             ForemFocusView.focusView = cacheView;
         };
         ForemOnChangeEventScope.onChangeMap.get(var).add(newFs);
+    }
+
+    default void onChange(ForemUnarySetter<String> fs) {
+        TextView view =  cast(getFocusView());
+        view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                View prev=getFocusView();
+                setFocusView(view);
+                fs.set(charSequence.toString());
+                setFocusView(prev);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
 

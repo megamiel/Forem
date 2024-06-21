@@ -1,6 +1,8 @@
 package forem.java.activitys;
 
 import android.os.Bundle;
+import android.view.Display;
+import android.view.WindowManager;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +24,7 @@ public abstract class ForemActivity extends AppCompatActivity implements Forem {
     public static final ForemNullarySetter none = () -> {
     };
     public ForemNullarySetter onBack = this::finish;
-    OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+    private OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
         @Override
         public void handleOnBackPressed() {
             onBack.set();

@@ -1,123 +1,365 @@
 package forem.java.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
-// 注記:画像ファイルのみ設定可能です
-@SuppressLint("AppCompatCustomView")
-public class CircleImageView extends ImageView {
-    private int canvasSize;
-    private Paint paint;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.widget.AppCompatImageView;
+
+public class CircleImageView extends AppCompatImageView {
+    private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
+    private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
+    private static final int COLORDRAWABLE_DIMENSION = 2;
+    private static final int DEFAULT_BORDER_WIDTH = 0;
+    private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
+    private static final int DEFAULT_FILL_COLOR = Color.TRANSPARENT;
+    private static final boolean DEFAULT_BORDER_OVERLAY = false;
+    private final RectF mDrawableRect = new RectF();
+    private final RectF mBorderRect = new RectF();
+    private final Matrix mShaderMatrix = new Matrix();
+    private final Paint mBitmapPaint = new Paint();
+    private final Paint mBorderPaint = new Paint();
+    private final Paint mFillPaint = new Paint();
+    private int mBorderColor = DEFAULT_BORDER_COLOR;
+    private int mBorderWidth = DEFAULT_BORDER_WIDTH;
+    private int mFillColor = DEFAULT_FILL_COLOR;
+    private Bitmap mBitmap;
+    private BitmapShader mBitmapShader;
+    private int mBitmapWidth;
+    private int mBitmapHeight;
+    private float mDrawableRadius;
+    private float mBorderRadius;
+    private ColorFilter mColorFilter;
+    private boolean mReady;
+    private boolean mSetupPending;
+    private boolean mBorderOverlay;
+    private boolean mDisableCircularTransformation;
 
     public CircleImageView(Context context) {
-        super(context, null);
-        paint = new Paint();
-        paint.setAntiAlias(true);
+        super(context);
+        init();
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        paint = new Paint();
-        paint.setAntiAlias(true);
+    private void init() {
+        super.setScaleType(SCALE_TYPE);
+        mReady = true;
+        if (mSetupPending) {
+            setup();
+            mSetupPending = false;
+        }
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    @Override
+    public ScaleType getScaleType() {
+        return SCALE_TYPE;
+    }
+
+    @Override
+    public void setScaleType(ScaleType scaleType) {
+        if (scaleType != SCALE_TYPE) {
+            throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
+        }
+    }
+
+    @Override
+    public void setAdjustViewBounds(boolean adjustViewBounds) {
+        if (adjustViewBounds) {
+            throw new IllegalArgumentException("adjustViewBounds not supported.");
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        BitmapDrawable drawable = (BitmapDrawable) getDrawable();
-        if (drawable == null)
+        if (mDisableCircularTransformation) {
+            super.onDraw(canvas);
             return;
-        if (getWidth() == 0 || getHeight() == 0)
+        }
+
+        if (mBitmap == null) {
             return;
+        }
 
-        Bitmap srcBmp = drawable.getBitmap();
-        if (srcBmp == null)
-            return;
-
-        Bitmap image = getSquareBitmap(srcBmp);
-
-        canvasSize = canvas.getWidth();
-        if (canvas.getHeight() < canvasSize)
-            canvasSize = canvas.getHeight();
-
-        BitmapShader shader =
-                new BitmapShader(Bitmap.createScaledBitmap(image, canvasSize, canvasSize, false),
-                        Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        paint.setShader(shader);
-
-        int circleCenter = canvasSize / 2;
-        canvas.drawCircle(circleCenter, circleCenter, circleCenter - 1, paint);
-    }
-
-    private Bitmap getSquareBitmap(Bitmap srcBmp) {
-        if (srcBmp.getWidth() == srcBmp.getHeight())
-            return srcBmp;
-
-        // Rectangle to square. Equivarent to ScaleType.CENTER_CROP
-        int dim = Math.min(srcBmp.getWidth(), srcBmp.getHeight());
-        Bitmap dstBmp = Bitmap.createBitmap(dim, dim, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(dstBmp);
-        float left = srcBmp.getWidth() > dim ? (dim - srcBmp.getWidth()) / 2 : 0;
-        float top = srcBmp.getHeight() > dim ? ((dim - srcBmp.getHeight()) / 2) : 0;
-        canvas.drawBitmap(srcBmp, left, top, null);
-
-        return dstBmp;
+        if (mFillColor != Color.TRANSPARENT) {
+            canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mFillPaint);
+        }
+        canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint);
+        if (mBorderWidth > 0) {
+            canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint);
+        }
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = measureWidth(widthMeasureSpec);
-        int height = measureHeight(heightMeasureSpec);
-        setMeasuredDimension(width, height);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        setup();
     }
 
-    private int measureWidth(int measureSpec) {
-        int result;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        super.setPadding(left, top, right, bottom);
+        setup();
+    }
 
-        if (specMode == MeasureSpec.EXACTLY) {
-            // The parent has determined an exact size for the child.
-            result = specSize;
-        } else if (specMode == MeasureSpec.AT_MOST) {
-            // The child can be as large as it wants up to the specified size.
-            result = specSize;
-        } else {
-            // The parent has not imposed any constraint on the child.
-            result = canvasSize;
+    @Override
+    public void setPaddingRelative(int start, int top, int end, int bottom) {
+        super.setPaddingRelative(start, top, end, bottom);
+        setup();
+    }
+
+    public int getBorderColor() {
+        return mBorderColor;
+    }
+
+    public void setBorderColor(@ColorInt int borderColor) {
+        if (borderColor == mBorderColor) {
+            return;
         }
 
-        return result;
+        mBorderColor = borderColor;
+        mBorderPaint.setColor(mBorderColor);
+        invalidate();
     }
 
-    private int measureHeight(int measureSpecHeight) {
-        int result;
-        int specMode = MeasureSpec.getMode(measureSpecHeight);
-        int specSize = MeasureSpec.getSize(measureSpecHeight);
+    @Deprecated
+    public void setBorderColorResource(@ColorRes int borderColorRes) {
+        setBorderColor(getContext().getResources().getColor(borderColorRes));
+    }
 
-        if (specMode == MeasureSpec.EXACTLY) {
-            // We were told how big to be
-            result = specSize;
-        } else if (specMode == MeasureSpec.AT_MOST) {
-            // The child can be as large as it wants up to the specified size.
-            result = specSize;
-        } else {
-            // Measure the text (beware: ascent is a negative number)
-            result = canvasSize;
+    @Deprecated
+    public int getFillColor() {
+        return mFillColor;
+    }
+
+    @Deprecated
+    public void setFillColor(@ColorInt int fillColor) {
+        if (fillColor == mFillColor) {
+            return;
         }
 
-        return (result + 2);
+        mFillColor = fillColor;
+        mFillPaint.setColor(fillColor);
+        invalidate();
     }
+
+    @Deprecated
+    public void setFillColorResource(@ColorRes int fillColorRes) {
+        setFillColor(getContext().getResources().getColor(fillColorRes));
+    }
+
+    public int getBorderWidth() {
+        return mBorderWidth;
+    }
+
+    public void setBorderWidth(int borderWidth) {
+        if (borderWidth == mBorderWidth) {
+            return;
+        }
+
+        mBorderWidth = borderWidth;
+        setup();
+    }
+
+    public boolean isBorderOverlay() {
+        return mBorderOverlay;
+    }
+
+    public void setBorderOverlay(boolean borderOverlay) {
+        if (borderOverlay == mBorderOverlay) {
+            return;
+        }
+
+        mBorderOverlay = borderOverlay;
+        setup();
+    }
+
+    public boolean isDisableCircularTransformation() {
+        return mDisableCircularTransformation;
+    }
+
+    public void setDisableCircularTransformation(boolean disableCircularTransformation) {
+        if (mDisableCircularTransformation == disableCircularTransformation) {
+            return;
+        }
+
+        mDisableCircularTransformation = disableCircularTransformation;
+        initializeBitmap();
+    }
+
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        super.setImageBitmap(bm);
+        initializeBitmap();
+    }
+
+    @Override
+    public void setImageDrawable(Drawable drawable) {
+        super.setImageDrawable(drawable);
+        initializeBitmap();
+    }
+
+    @Override
+    public void setImageResource(@DrawableRes int resId) {
+        super.setImageResource(resId);
+        initializeBitmap();
+    }
+
+    @Override
+    public void setImageURI(Uri uri) {
+        super.setImageURI(uri);
+        initializeBitmap();
+    }
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+        if (cf == mColorFilter) {
+            return;
+        }
+
+        mColorFilter = cf;
+        applyColorFilter();
+        invalidate();
+    }
+
+    @Override
+    public ColorFilter getColorFilter() {
+        return mColorFilter;
+    }
+
+    private void applyColorFilter() {
+        if (mBitmapPaint != null) {
+            mBitmapPaint.setColorFilter(mColorFilter);
+        }
+    }
+
+    private Bitmap getBitmapFromDrawable(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        try {
+            Bitmap bitmap;
+
+            if (drawable instanceof ColorDrawable) {
+                bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
+            } else {
+                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
+            }
+
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void initializeBitmap() {
+        if (mDisableCircularTransformation) {
+            mBitmap = null;
+        } else {
+            mBitmap = getBitmapFromDrawable(getDrawable());
+        }
+        setup();
+    }
+
+    private void setup() {
+        if (!mReady) {
+            mSetupPending = true;
+            return;
+        }
+
+        if (getWidth() == 0 && getHeight() == 0) {
+            return;
+        }
+
+        if (mBitmap == null) {
+            invalidate();
+            return;
+        }
+
+        mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+        mBitmapPaint.setAntiAlias(true);
+        mBitmapPaint.setShader(mBitmapShader);
+
+        mBorderPaint.setStyle(Paint.Style.STROKE);
+        mBorderPaint.setAntiAlias(true);
+        mBorderPaint.setColor(mBorderColor);
+        mBorderPaint.setStrokeWidth(mBorderWidth);
+
+        mFillPaint.setStyle(Paint.Style.FILL);
+        mFillPaint.setAntiAlias(true);
+        mFillPaint.setColor(mFillColor);
+
+        mBitmapHeight = mBitmap.getHeight();
+        mBitmapWidth = mBitmap.getWidth();
+
+        mBorderRect.set(calculateBounds());
+        mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2.0f, (mBorderRect.width() - mBorderWidth) / 2.0f);
+
+        mDrawableRect.set(mBorderRect);
+        if (!mBorderOverlay && mBorderWidth > 0) {
+            mDrawableRect.inset(mBorderWidth - 1.0f, mBorderWidth - 1.0f);
+        }
+        mDrawableRadius = Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f);
+
+        applyColorFilter();
+        updateShaderMatrix();
+        invalidate();
+    }
+
+    private RectF calculateBounds() {
+        int availableWidth = getWidth() - getPaddingLeft() - getPaddingRight();
+        int availableHeight = getHeight() - getPaddingTop() - getPaddingBottom();
+
+        int sideLength = Math.min(availableWidth, availableHeight);
+
+        float left = getPaddingLeft() + (availableWidth - sideLength) / 2f;
+        float top = getPaddingTop() + (availableHeight - sideLength) / 2f;
+
+        return new RectF(left, top, left + sideLength, top + sideLength);
+    }
+
+    private void updateShaderMatrix() {
+        float scale;
+        float dx = 0;
+        float dy = 0;
+
+        mShaderMatrix.set(null);
+
+        if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
+            scale = mDrawableRect.height() / (float) mBitmapHeight;
+            dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
+        } else {
+            scale = mDrawableRect.width() / (float) mBitmapWidth;
+            dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
+        }
+
+        mShaderMatrix.setScale(scale, scale);
+        mShaderMatrix.postTranslate((int) (dx + 0.5f) + mDrawableRect.left, (int) (dy + 0.5f) + mDrawableRect.top);
+
+        mBitmapShader.setLocalMatrix(mShaderMatrix);
+    }
+
 }
+

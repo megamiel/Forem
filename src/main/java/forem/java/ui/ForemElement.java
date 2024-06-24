@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.functionalInterfaces.ForemUnarySetter;
+import forem.java.ui.listLayoutModules.ListLayout;
 
 
 public class ForemElement<V extends View> {
@@ -40,7 +41,7 @@ public class ForemElement<V extends View> {
 
 
     public ForemElement<V> render(ForemNullarySetter fs) {
-        assert v instanceof ViewGroup;
+        assert v instanceof ViewGroup && !(v instanceof ListLayout):"view element not allowed to render child elements";
         ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
         ForemFocusViewGroup.focusViewGroup = (ViewGroup) v;
         fs.set();
@@ -49,7 +50,7 @@ public class ForemElement<V extends View> {
     }
 
     public ForemElement<V> render(ForemUnarySetter<V> fs) {
-        assert v instanceof ViewGroup;
+        assert v instanceof ViewGroup && !(v instanceof ListLayout):"view element not allowed to render child elements";
         ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
         ForemFocusViewGroup.focusViewGroup = (ViewGroup) v;
         fs.set(v);

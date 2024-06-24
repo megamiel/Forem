@@ -24,8 +24,10 @@ import forem.java.annotation.Preview;
 import forem.java.extensions.Args;
 import forem.java.extensions.CLASS;
 import forem.java.extensions.ForemFunctions;
+import forem.java.functionalInterfaces.ForemForEachSetter;
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.functionalInterfaces.ForemUnarySetter;
+import forem.java.ui.listLayoutModules.ListLayout;
 import forem.java.views.VarArea;
 
 import java.lang.reflect.Array;
@@ -41,14 +43,14 @@ public interface ForemOrigin extends ForemFunctions {
     int wrap_content = LinearLayout.LayoutParams.WRAP_CONTENT;
 
     default void layoutView(View view, int width, int height) {
-        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).width=width;
-        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).height=height;
+        cast(view.getLayoutParams(), LinearLayout.LayoutParams.class).width = width;
+        cast(view.getLayoutParams(), LinearLayout.LayoutParams.class).height = height;
     }
 
     default void layoutView(View view, int width, int height, int weightPercent) {
-        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).width=width;
-        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).height=height;
-        cast(view.getLayoutParams(),LinearLayout.LayoutParams.class).weight=weightPercent;
+        cast(view.getLayoutParams(), LinearLayout.LayoutParams.class).width = width;
+        cast(view.getLayoutParams(), LinearLayout.LayoutParams.class).height = height;
+        cast(view.getLayoutParams(), LinearLayout.LayoutParams.class).weight = weightPercent;
     }
 
     default void layout(int widthAndHeight) {
@@ -183,120 +185,119 @@ public interface ForemOrigin extends ForemFunctions {
 //    int right
 //    int bottom
 
-    default void padding(int padding){
-        padding(padding,padding,padding,padding);
+    default void padding(int padding) {
+        padding(padding, padding, padding, padding);
     }
 
-    default void padding(int topAndBottom,int leftAndRight){
-        padding(topAndBottom,leftAndRight,topAndBottom,leftAndRight);
+    default void padding(int topAndBottom, int leftAndRight) {
+        padding(topAndBottom, leftAndRight, topAndBottom, leftAndRight);
     }
 
-    default void padding(int top,int leftAndRight,int bottom){
-        padding(top,leftAndRight,bottom,leftAndRight);
+    default void padding(int top, int leftAndRight, int bottom) {
+        padding(top, leftAndRight, bottom, leftAndRight);
     }
 
-    default void padding(int top,int right,int bottom,int left){
-        getFocusView().setPadding(left,top,right,bottom);
+    default void padding(int top, int right, int bottom, int left) {
+        getFocusView().setPadding(left, top, right, bottom);
     }
 
 
-    default void paddingTop(int top){
-        View view=getFocusView();
-        int[] paddings=getPaddings(view);
-        paddings[0]=top;
+    default void paddingTop(int top) {
+        View view = getFocusView();
+        int[] paddings = getPaddings(view);
+        paddings[0] = top;
         _padding(paddings);
     }
 
-    default void paddingRight(int right){
-        View view=getFocusView();
-        int[] paddings=getPaddings(view);
-        paddings[1]=right;
+    default void paddingRight(int right) {
+        View view = getFocusView();
+        int[] paddings = getPaddings(view);
+        paddings[1] = right;
         _padding(paddings);
     }
 
-    default void paddingBottom(int bottom){
-        View view=getFocusView();
-        int[] paddings=getPaddings(view);
-        paddings[2]=bottom;
+    default void paddingBottom(int bottom) {
+        View view = getFocusView();
+        int[] paddings = getPaddings(view);
+        paddings[2] = bottom;
         _padding(paddings);
     }
 
-    default void paddingLeft(int left){
-        View view=getFocusView();
-        int[] paddings=getPaddings(view);
-        paddings[3]=left;
+    default void paddingLeft(int left) {
+        View view = getFocusView();
+        int[] paddings = getPaddings(view);
+        paddings[3] = left;
         _padding(paddings);
     }
 
-    private int[] getPaddings(View view){
-        int top=view.getPaddingTop();
-        int right=view.getPaddingRight();
-        int bottom=view.getPaddingBottom();
-        int left=view.getPaddingLeft();
-        return new int[]{top,right,bottom,left};
+    private int[] getPaddings(View view) {
+        int top = view.getPaddingTop();
+        int right = view.getPaddingRight();
+        int bottom = view.getPaddingBottom();
+        int left = view.getPaddingLeft();
+        return new int[]{top, right, bottom, left};
     }
 
-    private void _padding(int... paddings){
-        padding(paddings[0],paddings[1],paddings[2],paddings[3]);
+    private void _padding(int... paddings) {
+        padding(paddings[0], paddings[1], paddings[2], paddings[3]);
     }
 
-    default void margin(int margin){
-        margin(margin,margin,margin,margin);
+    default void margin(int margin) {
+        margin(margin, margin, margin, margin);
     }
 
-    default void margin(int topAndBottom,int leftAndRight){
-        margin(topAndBottom,leftAndRight,topAndBottom,leftAndRight);
+    default void margin(int topAndBottom, int leftAndRight) {
+        margin(topAndBottom, leftAndRight, topAndBottom, leftAndRight);
     }
 
-    default void margin(int top,int leftAndRight,int bottom){
-        margin(top,leftAndRight,bottom,leftAndRight);
+    default void margin(int top, int leftAndRight, int bottom) {
+        margin(top, leftAndRight, bottom, leftAndRight);
     }
 
-    default void margin(int top,int right,int bottom,int left){
-        cast(getFocusView().getLayoutParams(),LinearLayout.LayoutParams.class).setMargins(left,top,right,bottom);
+    default void margin(int top, int right, int bottom, int left) {
+        cast(getFocusView().getLayoutParams(), LinearLayout.LayoutParams.class).setMargins(left, top, right, bottom);
     }
 
 
-
-    default void marginTop(int top){
-        View view=getFocusView();
-        int[] margins=getMargins(view);
-        margins[0]=top;
+    default void marginTop(int top) {
+        View view = getFocusView();
+        int[] margins = getMargins(view);
+        margins[0] = top;
         _margins(margins);
     }
 
-    default void marginRight(int right){
-        View view=getFocusView();
-        int[] margins=getMargins(view);
-        margins[1]=right;
+    default void marginRight(int right) {
+        View view = getFocusView();
+        int[] margins = getMargins(view);
+        margins[1] = right;
         _margins(margins);
     }
 
-    default void marginBottom(int bottom){
-        View view=getFocusView();
-        int[] margins=getMargins(view);
-        margins[2]=bottom;
+    default void marginBottom(int bottom) {
+        View view = getFocusView();
+        int[] margins = getMargins(view);
+        margins[2] = bottom;
         _margins(margins);
     }
 
-    default void marginLeft(int left){
-        View view=getFocusView();
-        int[] margins=getMargins(view);
-        margins[3]=left;
+    default void marginLeft(int left) {
+        View view = getFocusView();
+        int[] margins = getMargins(view);
+        margins[3] = left;
         _margins(margins);
     }
 
-    private int[] getMargins(View view){
-        LinearLayout.LayoutParams lp=cast(view.getLayoutParams(),LinearLayout.LayoutParams.class);
-        int top=lp.topMargin;
-        int right=lp.rightMargin;
-        int bottom=lp.bottomMargin;
-        int left=lp.leftMargin;
-        return new int[]{top,right,bottom,left};
+    private int[] getMargins(View view) {
+        LinearLayout.LayoutParams lp = cast(view.getLayoutParams(), LinearLayout.LayoutParams.class);
+        int top = lp.topMargin;
+        int right = lp.rightMargin;
+        int bottom = lp.bottomMargin;
+        int left = lp.leftMargin;
+        return new int[]{top, right, bottom, left};
     }
 
-    private void _margins(int... margins){
-        margin(margins[0],margins[1],margins[2],margins[3]);
+    private void _margins(int... margins) {
+        margin(margins[0], margins[1], margins[2], margins[3]);
     }
 
 
@@ -370,21 +371,23 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
-    default <V extends VarArea> ForemElement<VarArea> create(ForemNullarySetter fs) {
-        try {
-            Constructor<VarArea> constructor = VarArea.class.getDeclaredConstructor(Context.class);
-            VarArea instance = constructor.newInstance(ForemFocusViewGroup.focusViewGroup.getContext());
-            ForemFocusView.focusView = instance;
-            ForemElement<VarArea> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
-            ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
-            ForemFocusViewGroup.focusViewGroup = newForemElement.getV();
-            newForemElement.attribute(fs);
-            ForemFocusViewGroup.focusViewGroup = parent;
-            return newForemElement;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+    default <V extends VarArea> ForemElement<VarArea> create(ForemNullarySetter fs,V... ignore) {
+        VarArea instance = new VarArea(getFocusViewGroup().getContext());
+        ForemFocusView.focusView = instance;
+        ForemElement<VarArea> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
+        ViewGroup parent = ForemFocusViewGroup.focusViewGroup;
+        ForemFocusViewGroup.focusViewGroup = newForemElement.getV();
+        newForemElement.attribute(fs);
+        ForemFocusViewGroup.focusViewGroup = parent;
+        return newForemElement;
+    }
+
+    default <E> void listRender(List<E> list,ForemUnarySetter<E> fs){
+        cast(getFocusView(),ListLayout.class).setList(list,(e,i)->fs.set(e));
+    }
+
+    default <E> void listRender(List<E> list, ForemForEachSetter<E> fs){
+        cast(getFocusView(),ListLayout.class).setList(list,fs);
     }
 
 
@@ -612,7 +615,7 @@ public interface ForemOrigin extends ForemFunctions {
     }
 
     default void onChange(ForemUnarySetter<String> fs) {
-        TextView view =  cast(getFocusView());
+        TextView view = cast(getFocusView());
         view.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -620,7 +623,7 @@ public interface ForemOrigin extends ForemFunctions {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                View prev=getFocusView();
+                View prev = getFocusView();
                 setFocusView(view);
                 fs.set(charSequence.toString());
                 setFocusView(prev);

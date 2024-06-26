@@ -1,4 +1,4 @@
-package forem.java.ui.listLayoutModules;
+package forem.java.views.listLayoutModules;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import forem.java.functionalInterfaces.ForemForEachSetter;
-import forem.java.functionalInterfaces.ForemUnarySetter;
 import forem.java.ui.ForemOrigin;
 import forem.java.views.HorizontalLayout;
 

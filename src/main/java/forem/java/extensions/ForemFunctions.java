@@ -6,6 +6,8 @@ import android.util.Log;
 
 import java.lang.reflect.Constructor;
 
+import forem.java.ui.ForemOrigin;
+
 public interface ForemFunctions {
     default <To> To cast(Object from) {
         return (To) from;
@@ -47,9 +49,11 @@ public interface ForemFunctions {
         return xInstance;
     }
 
+
+    // ここ修正箇所です
     @Deprecated
     default <A extends Activity> void startActivity(Class<A> clazz) {
-        ((Activity) this).startActivity(new Intent((Activity) this, clazz));
+        ForemOrigin.activity[0].startActivity(new Intent(ForemOrigin.activity[0], clazz));
     }
 
     default Thread startThread(Runnable runnable) {

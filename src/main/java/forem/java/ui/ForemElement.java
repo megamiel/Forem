@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.functionalInterfaces.ForemUnarySetter;
-import forem.java.ui.listLayoutModules.ListLayout;
+import forem.java.views.listLayoutModules.ListLayout;
 
 
 public class ForemElement<V extends View> {

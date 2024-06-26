@@ -1,4 +1,4 @@
-package forem.java.ui.listLayoutModules;
+package forem.java.views.listLayoutModules;
 
 import android.content.Context;
 
@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import forem.java.functionalInterfaces.ForemBinarySetter;
 import forem.java.functionalInterfaces.ForemForEachSetter;
-import forem.java.functionalInterfaces.ForemUnarySetter;
 import forem.java.ui.ForemOrigin;
 
 public class ListLayout extends RecyclerView {

@@ -7,12 +7,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
@@ -20,14 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import forem.java.activitys.ForemActivity;
-import forem.java.annotation.Preview;
 import forem.java.extensions.Args;
 import forem.java.extensions.CLASS;
 import forem.java.extensions.ForemFunctions;
 import forem.java.functionalInterfaces.ForemForEachSetter;
 import forem.java.functionalInterfaces.ForemNullarySetter;
 import forem.java.functionalInterfaces.ForemUnarySetter;
-import forem.java.ui.listLayoutModules.ListLayout;
+import forem.java.views.listLayoutModules.ListLayout;
 import forem.java.views.VarArea;
 
 import java.lang.reflect.Array;
@@ -371,7 +368,7 @@ public interface ForemOrigin extends ForemFunctions {
         }
     }
 
-    default <V extends VarArea> ForemElement<VarArea> create(ForemNullarySetter fs,V... ignore) {
+    default <V extends VarArea> ForemElement<VarArea> create(ForemNullarySetter fs, V... ignore) {
         VarArea instance = new VarArea(getFocusViewGroup().getContext());
         ForemFocusView.focusView = instance;
         ForemElement<VarArea> newForemElement = new ForemElement<>(ForemFocusViewGroup.focusViewGroup, instance);
@@ -382,12 +379,12 @@ public interface ForemOrigin extends ForemFunctions {
         return newForemElement;
     }
 
-    default <E> void listRender(List<E> list,ForemUnarySetter<E> fs){
-        cast(getFocusView(),ListLayout.class).setList(list,(e,i)->fs.set(e));
+    default <E> void listRender(List<E> list, ForemUnarySetter<E> fs) {
+        cast(getFocusView(), ListLayout.class).setList(list, (e, i) -> fs.set(e));
     }
 
-    default <E> void listRender(List<E> list, ForemForEachSetter<E> fs){
-        cast(getFocusView(),ListLayout.class).setList(list,fs);
+    default <E> void listRender(List<E> list, ForemForEachSetter<E> fs) {
+        cast(getFocusView(), ListLayout.class).setList(list, fs);
     }
 
 
@@ -403,19 +400,23 @@ public interface ForemOrigin extends ForemFunctions {
         this.<Space>create(space -> layoutView(space, width, height, weightPercent));
     }
 
+    @Deprecated(forRemoval = true)
     default ForemComponent component(ForemComponent fc) {
         return fc;
     }
 
 
+    @Deprecated(forRemoval = true)
     default <A extends Args> ForemUnaryComponentWrapper<A> component(A a, ForemUnaryComponent<A> fc) {
         return new ForemUnaryComponentWrapper<>(fc, a);
     }
 
+    @Deprecated(forRemoval = true)
     default <C> ForemUnaryComponent<C> component(Class<C> clazz, ForemUnaryComponent<C> fc) {
         return fc;
     }
 
+    @Deprecated(forRemoval = true)
     default void export(Class<? extends ForemComponent> clazz) {
         newInstance(clazz).export();
     }

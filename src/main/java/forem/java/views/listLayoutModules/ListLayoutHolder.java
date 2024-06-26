@@ -1,4 +1,4 @@
-package forem.java.ui.listLayoutModules;
+package forem.java.views.listLayoutModules;
 
 import android.view.View;
 

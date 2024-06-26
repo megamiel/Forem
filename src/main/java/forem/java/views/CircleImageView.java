@@ -1,6 +1,7 @@
 package forem.java.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.AttributeSet;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
@@ -51,6 +53,15 @@ public class CircleImageView extends AppCompatImageView {
 
     public CircleImageView(Context context) {
         super(context);
+        init();
+    }
+
+    public CircleImageView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
         init();
     }
 

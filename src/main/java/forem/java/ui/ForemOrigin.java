@@ -421,6 +421,17 @@ public interface ForemOrigin extends ForemFunctions {
         newInstance(clazz).export();
     }
 
+    default <C extends Component> void export(C... ignore) {
+        Class<C> clazz = cast(ignore.getClass().getComponentType());
+        try {
+            Constructor<C> constructor = clazz.getDeclaredConstructor();
+            C instance = constructor.newInstance();
+            instance.export();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     default <C extends Component> void export(ForemUnarySetter<C> fs, C... ignore) {
         Class<C> clazz = cast(ignore.getClass().getComponentType());
         try {
@@ -431,7 +442,6 @@ public interface ForemOrigin extends ForemFunctions {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     default void craftmincho() {
@@ -736,5 +746,13 @@ public interface ForemOrigin extends ForemFunctions {
 
     default Set<String> getShared(String key, Set<String> undefinedValue) {
         return getSharedPreference().getStringSet(key, undefinedValue);
+    }
+
+    default void removeShared(String key) {
+        getSharedEditor().remove(key).apply();
+    }
+
+    default void clearShared() {
+        getSharedEditor().clear().apply();
     }
 }

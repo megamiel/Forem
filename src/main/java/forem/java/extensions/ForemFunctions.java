@@ -12,13 +12,14 @@ public interface ForemFunctions {
     default <To> To cast(Object from) {
         return (To) from;
     }
+
     default <To> To cast(Object from, Class<To> clazz) {
         return (To) from;
     }
 
     default void loop(Runnable runnable) {
-        ThreadRunner.start(()->{
-            while(true)runnable.run();
+        ThreadRunner.start(() -> {
+            while (true) runnable.run();
         });
     }
 
@@ -50,8 +51,6 @@ public interface ForemFunctions {
     }
 
 
-    // ここ修正箇所です
-    @Deprecated
     default <A extends Activity> void startActivity(Class<A> clazz) {
         ForemOrigin.activity[0].startActivity(new Intent(ForemOrigin.activity[0], clazz));
     }

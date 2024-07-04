@@ -11,6 +11,7 @@ public interface Forem extends ForemOrigin {
         Activity activity = (Activity) this;
         Root root = new Root(activity);
         root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        ForemOrigin.setFocusView(root);
         return new ForemRoot(activity, root);
     }
 

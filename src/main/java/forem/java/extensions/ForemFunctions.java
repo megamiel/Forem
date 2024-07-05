@@ -68,4 +68,8 @@ public interface ForemFunctions {
     default void log(Object log) {
         Log.d("Log", log.toString());
     }
+
+    default void echo(Object obj) {
+        Log.d("echo", obj.toString());
+    }
 }

@@ -21,4 +21,10 @@ public class ListLayout extends RecyclerView {
         ListLayoutAdapter<E> adapter = new ListLayoutAdapter<>(list,fs);
         setAdapter(adapter);
     }
+
+    public <E> void add(E e){
+        ListLayoutAdapter<E> adapter=(ListLayoutAdapter<E>) getAdapter();
+        adapter.list.add(e);
+        adapter.notifyItemInserted(adapter.getItemCount()-1);
+    }
 }

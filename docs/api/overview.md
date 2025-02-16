@@ -50,7 +50,7 @@ $.<HorizontalLayout>create(() -> {
 ```
 以下は、要素の属性設定や子要素のレイアウトを省略したコードです。
 ```java
-$.<HorizontalLayou>create(() -> {
+$.<HorizontalLayout>create(() -> {
     // 要素の属性設定
 }).render(() -> {
     // 子要素のレイアウト
